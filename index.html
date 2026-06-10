@@ -1,0 +1,451 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Junaid | Portfolio</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                    colors: {
+                        primary: '#1e40af', // Blue-800
+                        secondary: '#475569', // Slate-600
+                        light: '#f8fafc', // Slate-50
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        /* Custom styles for print media to make the site double as a printable CV */
+        @media print {
+            nav, .no-print { display: none !important; }
+            body { background-color: white !important; color: black !important; }
+            section { page-break-inside: avoid; padding: 1rem 0 !important; }
+            .print-text-sm { font-size: 0.875rem !important; }
+            .shadow-sm, .shadow-md, .hover\:shadow-xl { box-shadow: none !important; border: 1px solid #e2e8f0; }
+        }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800 font-sans antialiased selection:bg-primary selection:text-white">
+
+    <!-- Navigation -->
+    <nav class="sticky top-0 z-50 bg-white/80 backdrop-blur-md border-b border-slate-200 shadow-sm transition-all duration-300">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <div class="flex-shrink-0 flex items-center">
+                    <a href="#" class="text-xl font-bold text-primary tracking-tight">JUNAID.</a>
+                </div>
+                <div class="hidden md:flex space-x-8">
+                    <a href="#about" class="text-sm font-medium text-slate-600 hover:text-primary transition-colors">About</a>
+                    <a href="#skills" class="text-sm font-medium text-slate-600 hover:text-primary transition-colors">Skills</a>
+                    <a href="#experience" class="text-sm font-medium text-slate-600 hover:text-primary transition-colors">Experience</a>
+                    <a href="#education" class="text-sm font-medium text-slate-600 hover:text-primary transition-colors">Education</a>
+                </div>
+                <div class="flex items-center space-x-4">
+                    <button onclick="window.print()" class="hidden md:flex items-center text-sm font-medium text-slate-600 hover:text-primary transition-colors no-print">
+                        <i data-lucide="printer" class="w-4 h-4 mr-1"></i> Print CV
+                    </button>
+                    <a href="mailto:abdjunaidkv@gmail.com" class="inline-flex items-center justify-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-primary hover:bg-blue-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary transition-colors">
+                        Hire Me
+                    </a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="hero" class="relative bg-white overflow-hidden pt-16 pb-20 lg:pt-24 lg:pb-28">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 relative">
+            <div class="text-center md:text-left flex flex-col md:flex-row items-center gap-12">
+                <!-- Avatar Placeholder (You can replace the inner div with an <img> tag pointing to your real photo) -->
+                <div class="w-40 h-40 md:w-48 md:h-48 rounded-full border-4 border-white shadow-xl bg-gradient-to-br from-blue-100 to-blue-200 flex items-center justify-center flex-shrink-0 relative overflow-hidden">
+                    <span class="text-6xl font-bold text-primary">J</span>
+                </div>
+                
+                <div class="flex-1">
+                    <h1 class="text-4xl md:text-5xl lg:text-6xl font-extrabold tracking-tight text-slate-900 mb-4">
+                        Hi, I'm <span class="text-primary">Junaid</span>
+                    </h1>
+                    <h2 class="text-xl md:text-2xl font-medium text-slate-600 mb-6">
+                        Educator | Office Administrator | Islamic Scholar
+                    </h2>
+                    
+                    <div class="flex flex-col sm:flex-row flex-wrap items-center md:items-start justify-center md:justify-start gap-4 text-slate-600 mb-8">
+                        <div class="flex items-center">
+                            <i data-lucide="map-pin" class="w-5 h-5 mr-2 text-primary"></i>
+                            Kozhikode, Kerala, India
+                        </div>
+                        <div class="hidden sm:block text-slate-300">|</div>
+                        <div class="flex items-center">
+                            <i data-lucide="mail" class="w-5 h-5 mr-2 text-primary"></i>
+                            <a href="mailto:abdjunaidkv@gmail.com" class="hover:text-primary transition-colors">abdjunaidkv@gmail.com</a>
+                        </div>
+                        <div class="hidden sm:block text-slate-300">|</div>
+                        <div class="flex items-center">
+                            <i data-lucide="phone" class="w-5 h-5 mr-2 text-primary"></i>
+                            <a href="tel:+919645555771" class="hover:text-primary transition-colors">+91 964 5555 771</a>
+                        </div>
+                    </div>
+                    
+                    <div class="flex justify-center md:justify-start space-x-4 no-print">
+                        <a href="#contact" class="inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-md shadow-sm text-white bg-slate-900 hover:bg-slate-800 transition-colors">
+                            Contact Me
+                        </a>
+                        <a href="#experience" class="inline-flex items-center px-6 py-3 border border-slate-300 text-base font-medium rounded-md text-slate-700 bg-white hover:bg-slate-50 transition-colors">
+                            View Experience
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="py-16 bg-slate-50 border-t border-slate-200">
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-10">
+                <h2 class="text-3xl font-bold text-slate-900 mb-2">Professional Summary</h2>
+                <div class="w-16 h-1 bg-primary mx-auto rounded-full"></div>
+            </div>
+            <div class="bg-white rounded-2xl shadow-sm border border-slate-100 p-8 md:p-10 text-lg leading-relaxed text-slate-600 print-text-sm">
+                <p>
+                    Versatile, highly organized, and dedicated professional with a robust background encompassing academic instruction, office administration, and Islamic theology. Proven track record in spearheading data digitalization, managing digital operational systems, and optimizing administrative workflows. 
+                </p>
+                <p class="mt-4">
+                    Highly adept at creating engaging learning environments, developing curriculum-based instructional plans, and fostering student character development (Tarbiyah). Brings combined expertise in financial record-keeping, multi-committee leadership, and digital platform management to drive efficiency and holistic growth in diverse, fast-paced educational and corporate environments.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Skills Section -->
+    <section id="skills" class="py-16 bg-white border-t border-slate-200">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl font-bold text-slate-900 mb-2">Core Competencies & Skills</h2>
+                <div class="w-16 h-1 bg-primary mx-auto rounded-full"></div>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Skill Category 1 -->
+                <div class="bg-slate-50 rounded-xl p-6 border border-slate-100 hover:shadow-md transition-shadow">
+                    <div class="flex items-center mb-4">
+                        <div class="p-2 bg-blue-100 rounded-lg text-primary mr-3">
+                            <i data-lucide="book-open" class="w-6 h-6"></i>
+                        </div>
+                        <h3 class="font-bold text-slate-800 text-lg">Education & Theology</h3>
+                    </div>
+                    <ul class="space-y-2 text-slate-600 text-sm">
+                        <li class="flex items-start"><i data-lucide="check-circle-2" class="w-4 h-4 text-green-500 mr-2 mt-0.5"></i> Curriculum Development</li>
+                        <li class="flex items-start"><i data-lucide="check-circle-2" class="w-4 h-4 text-green-500 mr-2 mt-0.5"></i> Lesson Planning</li>
+                        <li class="flex items-start"><i data-lucide="check-circle-2" class="w-4 h-4 text-green-500 mr-2 mt-0.5"></i> Islamic Theology (Wafy)</li>
+                        <li class="flex items-start"><i data-lucide="check-circle-2" class="w-4 h-4 text-green-500 mr-2 mt-0.5"></i> Moral Education (Tarbiyah)</li>
+                    </ul>
+                </div>
+
+                <!-- Skill Category 2 -->
+                <div class="bg-slate-50 rounded-xl p-6 border border-slate-100 hover:shadow-md transition-shadow">
+                    <div class="flex items-center mb-4">
+                        <div class="p-2 bg-blue-100 rounded-lg text-primary mr-3">
+                            <i data-lucide="briefcase" class="w-6 h-6"></i>
+                        </div>
+                        <h3 class="font-bold text-slate-800 text-lg">Administration</h3>
+                    </div>
+                    <ul class="space-y-2 text-slate-600 text-sm">
+                        <li class="flex items-start"><i data-lucide="check-circle-2" class="w-4 h-4 text-green-500 mr-2 mt-0.5"></i> Workplace Management</li>
+                        <li class="flex items-start"><i data-lucide="check-circle-2" class="w-4 h-4 text-green-500 mr-2 mt-0.5"></i> Operational Scheduling</li>
+                        <li class="flex items-start"><i data-lucide="check-circle-2" class="w-4 h-4 text-green-500 mr-2 mt-0.5"></i> Financial Admin & Bookkeeping</li>
+                        <li class="flex items-start"><i data-lucide="check-circle-2" class="w-4 h-4 text-green-500 mr-2 mt-0.5"></i> Logistics Coordination</li>
+                    </ul>
+                </div>
+
+                <!-- Skill Category 3 -->
+                <div class="bg-slate-50 rounded-xl p-6 border border-slate-100 hover:shadow-md transition-shadow">
+                    <div class="flex items-center mb-4">
+                        <div class="p-2 bg-blue-100 rounded-lg text-primary mr-3">
+                            <i data-lucide="laptop" class="w-6 h-6"></i>
+                        </div>
+                        <h3 class="font-bold text-slate-800 text-lg">Tech & Data</h3>
+                    </div>
+                    <ul class="space-y-2 text-slate-600 text-sm">
+                        <li class="flex items-start"><i data-lucide="check-circle-2" class="w-4 h-4 text-green-500 mr-2 mt-0.5"></i> MS Office Suite (Advanced)</li>
+                        <li class="flex items-start"><i data-lucide="check-circle-2" class="w-4 h-4 text-green-500 mr-2 mt-0.5"></i> Google Workspace & Zoom</li>
+                        <li class="flex items-start"><i data-lucide="check-circle-2" class="w-4 h-4 text-green-500 mr-2 mt-0.5"></i> Tally Software</li>
+                        <li class="flex items-start"><i data-lucide="check-circle-2" class="w-4 h-4 text-green-500 mr-2 mt-0.5"></i> Data Digitalization</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Soft Skills & Languages -->
+            <div class="mt-8 grid grid-cols-1 md:grid-cols-2 gap-8">
+                <div class="bg-white p-6 rounded-xl border border-slate-200">
+                    <h3 class="font-bold text-slate-800 mb-4 flex items-center"><i data-lucide="users" class="w-5 h-5 mr-2 text-primary"></i> Soft Skills</h3>
+                    <div class="flex flex-wrap gap-2">
+                        <span class="px-3 py-1 bg-slate-100 text-slate-700 rounded-full text-sm font-medium">Problem-Solving</span>
+                        <span class="px-3 py-1 bg-slate-100 text-slate-700 rounded-full text-sm font-medium">Public Speaking</span>
+                        <span class="px-3 py-1 bg-slate-100 text-slate-700 rounded-full text-sm font-medium">Empathy</span>
+                        <span class="px-3 py-1 bg-slate-100 text-slate-700 rounded-full text-sm font-medium">Conflict Resolution</span>
+                        <span class="px-3 py-1 bg-slate-100 text-slate-700 rounded-full text-sm font-medium">Leadership</span>
+                    </div>
+                </div>
+                <div class="bg-white p-6 rounded-xl border border-slate-200">
+                    <h3 class="font-bold text-slate-800 mb-4 flex items-center"><i data-lucide="languages" class="w-5 h-5 mr-2 text-primary"></i> Languages</h3>
+                    <div class="flex flex-wrap gap-2">
+                        <span class="px-3 py-1 bg-blue-50 text-blue-700 border border-blue-100 rounded-full text-sm font-medium">Malayalam (Native)</span>
+                        <span class="px-3 py-1 bg-slate-50 text-slate-700 border border-slate-200 rounded-full text-sm font-medium">English (Proficient)</span>
+                        <span class="px-3 py-1 bg-slate-50 text-slate-700 border border-slate-200 rounded-full text-sm font-medium">Arabic (Functional)</span>
+                        <span class="px-3 py-1 bg-slate-50 text-slate-700 border border-slate-200 rounded-full text-sm font-medium">Urdu/Hindi (Basic)</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Experience Section -->
+    <section id="experience" class="py-16 bg-slate-50 border-t border-slate-200">
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl font-bold text-slate-900 mb-2">Professional Experience</h2>
+                <div class="w-16 h-1 bg-primary mx-auto rounded-full"></div>
+            </div>
+
+            <div class="space-y-6">
+                <!-- Job Card 1 -->
+                <div class="bg-white p-6 md:p-8 rounded-2xl shadow-sm border border-slate-100 hover:shadow-lg transition-all duration-300 transform hover:-translate-y-1">
+                    <div class="flex flex-col md:flex-row md:justify-between md:items-start mb-4">
+                        <div>
+                            <h3 class="text-xl font-bold text-slate-900">Islamic Educator & Administrator</h3>
+                            <p class="text-primary font-medium text-sm md:text-base mt-1">Nibrasul Islam Secondary Madrasa, Mokeri</p>
+                        </div>
+                        <span class="inline-block mt-2 md:mt-0 px-3 py-1 bg-slate-100 text-slate-600 text-xs font-semibold rounded-full border border-slate-200">
+                            March 2026 – Present
+                        </span>
+                    </div>
+                    <ul class="list-disc list-outside ml-5 text-slate-600 space-y-2 text-sm md:text-base print-text-sm">
+                        <li>Deliver comprehensive, curriculum-based Islamic instruction, adapting teaching methodologies to meet diverse academic needs.</li>
+                        <li>Facilitate a values-oriented classroom environment encouraging active discussion and moral reflection.</li>
+                        <li>Conduct regular student assessments and provide constructive feedback to parents.</li>
+                        <li>Spearhead data entry, record-keeping, and general administrative coordination for the institution.</li>
+                    </ul>
+                </div>
+
+                <!-- Job Card 2 -->
+                <div class="bg-white p-6 md:p-8 rounded-2xl shadow-sm border border-slate-100 hover:shadow-lg transition-all duration-300 transform hover:-translate-y-1">
+                    <div class="flex flex-col md:flex-row md:justify-between md:items-start mb-4">
+                        <div>
+                            <h3 class="text-xl font-bold text-slate-900">Teacher & Digital Administrator</h3>
+                            <p class="text-primary font-medium text-sm md:text-base mt-1">Hidayathul Islam Higher Secondary Madrasa, Orkkatteri</p>
+                        </div>
+                        <span class="inline-block mt-2 md:mt-0 px-3 py-1 bg-slate-100 text-slate-600 text-xs font-semibold rounded-full border border-slate-200">
+                            June 2025 – March 2026
+                        </span>
+                    </div>
+                    <ul class="list-disc list-outside ml-5 text-slate-600 space-y-2 text-sm md:text-base print-text-sm">
+                        <li>Designed and delivered dynamic lesson plans across subjects, fostering a positive classroom environment.</li>
+                        <li>Spearheaded a complete institutional migration to digital records, improving data entry accuracy and operational speed.</li>
+                        <li>Developed a custom online data management and exam results tracking system to streamline grading.</li>
+                        <li>Coordinated schedules, managed internal communications, and tracked institutional progress parameters.</li>
+                    </ul>
+                </div>
+
+                <!-- Job Card 3 -->
+                <div class="bg-white p-6 md:p-8 rounded-2xl shadow-sm border border-slate-100 hover:shadow-lg transition-all duration-300 transform hover:-translate-y-1">
+                    <div class="flex flex-col md:flex-row md:justify-between md:items-start mb-4">
+                        <div>
+                            <h3 class="text-xl font-bold text-slate-900">Accounting Trainee</h3>
+                            <p class="text-primary font-medium text-sm md:text-base mt-1">Al Ameen Accounting Services, Kuttiady</p>
+                        </div>
+                        <span class="inline-block mt-2 md:mt-0 px-3 py-1 bg-slate-100 text-slate-600 text-xs font-semibold rounded-full border border-slate-200">
+                            Dec 2025 – March 2026
+                        </span>
+                    </div>
+                    <ul class="list-disc list-outside ml-5 text-slate-600 space-y-2 text-sm md:text-base print-text-sm">
+                        <li>Maintained flawless day-to-day financial records and ledgers utilizing professional Tally software and Microsoft Excel.</li>
+                        <li>Applied fundamental accounting principles to systematically track assets, liabilities, and balance entries.</li>
+                        <li>Developed core practical expertise in professional workplace administration and corporate data management.</li>
+                    </ul>
+                </div>
+                
+                <!-- Collapsible older experience container -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 pt-4 border-t border-slate-200">
+                    <!-- Older Job 1 -->
+                    <div class="bg-white p-6 rounded-xl border border-slate-100">
+                        <h4 class="font-bold text-slate-800">Travel Consultant & E-Seva Asst.</h4>
+                        <p class="text-xs text-primary mb-3">Malabar Travels | Jul 2025 – Nov 2025</p>
+                        <p class="text-sm text-slate-600">Managed business accounts, balanced daily cash transactions. Spearheaded online data entry for public e-services, passport applications, and coordinated complex travel logistics.</p>
+                    </div>
+                    <!-- Older Job 2 -->
+                    <div class="bg-white p-6 rounded-xl border border-slate-100">
+                        <h4 class="font-bold text-slate-800">Sub Editor & Digital Assistant</h4>
+                        <p class="text-xs text-primary mb-3">Campus Journal | Dec 2023 – May 2025</p>
+                        <p class="text-sm text-slate-600">Managed content workflows and daily operations of the digital platform. Collaborated directly with external contributors and edited critical documentation.</p>
+                    </div>
+                    <!-- Older Job 3 -->
+                    <div class="bg-white p-6 rounded-xl border border-slate-100 md:col-span-2">
+                        <h4 class="font-bold text-slate-800">College Union Secretary</h4>
+                        <p class="text-xs text-primary mb-3">MTM Wafy College, Chokli | 2022 – 2023</p>
+                        <p class="text-sm text-slate-600">Directed administrative functions of the central student body, executing diverse initiatives. Streamlined communication lines across multiple independent committees.</p>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Education Section -->
+    <section id="education" class="py-16 bg-white border-t border-slate-200">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl font-bold text-slate-900 mb-2">Education & Certifications</h2>
+                <div class="w-16 h-1 bg-primary mx-auto rounded-full"></div>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-10">
+                <!-- Academic Degrees -->
+                <div>
+                    <h3 class="text-xl font-bold text-slate-800 mb-6 flex items-center">
+                        <i data-lucide="graduation-cap" class="w-6 h-6 mr-2 text-primary"></i> Academic Degrees
+                    </h3>
+                    <div class="space-y-6 relative before:absolute before:inset-0 before:ml-5 before:-translate-x-px md:before:mx-auto md:before:translate-x-0 before:h-full before:w-0.5 before:bg-gradient-to-b before:from-transparent before:via-slate-200 before:to-transparent">
+                        
+                        <!-- Ed Item -->
+                        <div class="relative flex items-center justify-between md:justify-normal md:odd:flex-row-reverse group is-active">
+                            <div class="flex items-center justify-center w-10 h-10 rounded-full border-4 border-white bg-blue-100 text-primary shadow shrink-0 md:order-1 md:group-odd:-translate-x-1/2 md:group-even:translate-x-1/2 z-10">
+                                <i data-lucide="book" class="w-4 h-4"></i>
+                            </div>
+                            <div class="w-[calc(100%-4rem)] md:w-[calc(50%-2.5rem)] bg-slate-50 p-4 rounded-xl border border-slate-100 shadow-sm">
+                                <span class="text-xs font-semibold text-primary mb-1 block">Expected 2027</span>
+                                <h4 class="font-bold text-slate-800">B.Ed. in English (Ongoing)</h4>
+                                <p class="text-sm text-slate-500">JJ College of Education, Ammapettai</p>
+                            </div>
+                        </div>
+
+                        <!-- Ed Item -->
+                        <div class="relative flex items-center justify-between md:justify-normal md:odd:flex-row-reverse group is-active">
+                            <div class="flex items-center justify-center w-10 h-10 rounded-full border-4 border-white bg-blue-100 text-primary shadow shrink-0 md:order-1 md:group-odd:-translate-x-1/2 md:group-even:translate-x-1/2 z-10">
+                                <i data-lucide="award" class="w-4 h-4"></i>
+                            </div>
+                            <div class="w-[calc(100%-4rem)] md:w-[calc(50%-2.5rem)] bg-slate-50 p-4 rounded-xl border border-slate-100 shadow-sm">
+                                <span class="text-xs font-semibold text-primary mb-1 block">2024 - 2026</span>
+                                <h4 class="font-bold text-slate-800">M.A. in Arabic</h4>
+                                <p class="text-sm text-slate-500">IGNOU</p>
+                            </div>
+                        </div>
+
+                        <!-- Ed Item -->
+                        <div class="relative flex items-center justify-between md:justify-normal md:odd:flex-row-reverse group is-active">
+                            <div class="flex items-center justify-center w-10 h-10 rounded-full border-4 border-white bg-blue-100 text-primary shadow shrink-0 md:order-1 md:group-odd:-translate-x-1/2 md:group-even:translate-x-1/2 z-10">
+                                <i data-lucide="book-open" class="w-4 h-4"></i>
+                            </div>
+                            <div class="w-[calc(100%-4rem)] md:w-[calc(50%-2.5rem)] bg-slate-50 p-4 rounded-xl border border-slate-100 shadow-sm">
+                                <span class="text-xs font-semibold text-primary mb-1 block">2023 - 2025</span>
+                                <h4 class="font-bold text-slate-800">Masters in Islamic Theology (Wafy)</h4>
+                                <p class="text-sm text-slate-500">Wafy Campus, Kalikavu</p>
+                            </div>
+                        </div>
+
+                        <!-- Ed Item -->
+                        <div class="relative flex items-center justify-between md:justify-normal md:odd:flex-row-reverse group is-active">
+                            <div class="flex items-center justify-center w-10 h-10 rounded-full border-4 border-white bg-blue-100 text-primary shadow shrink-0 md:order-1 md:group-odd:-translate-x-1/2 md:group-even:translate-x-1/2 z-10">
+                                <i data-lucide="award" class="w-4 h-4"></i>
+                            </div>
+                            <div class="w-[calc(100%-4rem)] md:w-[calc(50%-2.5rem)] bg-slate-50 p-4 rounded-xl border border-slate-100 shadow-sm">
+                                <span class="text-xs font-semibold text-primary mb-1 block">2021 - 2024</span>
+                                <h4 class="font-bold text-slate-800">B.A. in English Lang & Lit.</h4>
+                                <p class="text-sm text-slate-500">University of Calicut</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Certifications & Early Ed -->
+                <div>
+                    <h3 class="text-xl font-bold text-slate-800 mb-6 flex items-center mt-10 lg:mt-0">
+                        <i data-lucide="file-badge" class="w-6 h-6 mr-2 text-primary"></i> Diplomas & Foundation
+                    </h3>
+                    
+                    <div class="grid grid-cols-1 gap-4">
+                        <!-- Cert Card -->
+                        <div class="bg-white p-5 rounded-xl border border-slate-200 hover:border-blue-300 transition-colors flex items-start">
+                            <div class="p-2 bg-slate-100 rounded text-slate-600 mr-4 mt-1"><i data-lucide="scroll" class="w-5 h-5"></i></div>
+                            <div>
+                                <h4 class="font-bold text-slate-800">Aliya Certificate (Undergrad)</h4>
+                                <p class="text-sm text-slate-600">Islamic & Arabic Studies, MTM College</p>
+                                <p class="text-xs text-slate-400 mt-1">2020 - 2023</p>
+                            </div>
+                        </div>
+
+                        <!-- Cert Card -->
+                        <div class="bg-white p-5 rounded-xl border border-slate-200 hover:border-blue-300 transition-colors flex items-start">
+                            <div class="p-2 bg-slate-100 rounded text-slate-600 mr-4 mt-1"><i data-lucide="languages" class="w-5 h-5"></i></div>
+                            <div>
+                                <h4 class="font-bold text-slate-800">Diploma in Functional Arabic</h4>
+                                <p class="text-sm text-slate-600">NCPUL</p>
+                                <p class="text-xs text-slate-400 mt-1">2023 - 2025</p>
+                            </div>
+                        </div>
+
+                        <!-- Cert Card -->
+                        <div class="bg-white p-5 rounded-xl border border-slate-200 hover:border-blue-300 transition-colors flex items-start">
+                            <div class="p-2 bg-slate-100 rounded text-slate-600 mr-4 mt-1"><i data-lucide="languages" class="w-5 h-5"></i></div>
+                            <div>
+                                <h4 class="font-bold text-slate-800">Diploma in Urdu Language</h4>
+                                <p class="text-sm text-slate-600">NCPUL</p>
+                                <p class="text-xs text-slate-400 mt-1">2023 - 2024</p>
+                            </div>
+                        </div>
+
+                         <!-- Cert Card -->
+                         <div class="bg-white p-5 rounded-xl border border-slate-200 hover:border-blue-300 transition-colors flex items-start">
+                            <div class="p-2 bg-slate-100 rounded text-slate-600 mr-4 mt-1"><i data-lucide="building" class="w-5 h-5"></i></div>
+                            <div>
+                                <h4 class="font-bold text-slate-800">HSE Commerce</h4>
+                                <p class="text-sm text-slate-600">RVHSS Chokli</p>
+                                <p class="text-xs text-slate-400 mt-1">2018 - 2020</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer / Contact -->
+    <footer id="contact" class="bg-slate-900 text-white py-12 border-t border-slate-800">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex flex-col md:flex-row justify-between items-center">
+                <div class="mb-6 md:mb-0 text-center md:text-left">
+                    <span class="text-2xl font-bold tracking-tight text-white block mb-2">JUNAID.</span>
+                    <p class="text-slate-400 text-sm">Educator | Administrator | Scholar</p>
+                </div>
+                
+                <div class="flex flex-col items-center md:items-end space-y-3">
+                    <a href="mailto:abdjunaidkv@gmail.com" class="flex items-center text-slate-300 hover:text-white transition-colors">
+                        <i data-lucide="mail" class="w-5 h-5 mr-2"></i> abdjunaidkv@gmail.com
+                    </a>
+                    <a href="tel:+919645555771" class="flex items-center text-slate-300 hover:text-white transition-colors">
+                        <i data-lucide="phone" class="w-5 h-5 mr-2"></i> +91 964 5555 771
+                    </a>
+                </div>
+            </div>
+            
+            <div class="mt-8 pt-8 border-t border-slate-800 text-center text-sm text-slate-500">
+                <p>&copy; <script>document.write(new Date().getFullYear())</script> Junaid. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Initialize Icons -->
+    <script>
+        lucide.createIcons();
+    </script>
+</body>
+</html>
