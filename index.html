@@ -68,57 +68,6 @@
         }
     </script>
     <style>
-        /* CSS specifically for the Print/PDF output */
-        @media print {
-            @page {
-                size: A4;
-                margin: 0.4in 0.5in; /* Tight margins to fit 2 pages */
-            }
-            
-            body { 
-                background: white !important; 
-                color: #0f172a !important; 
-                font-size: 10.5pt !important;
-            }
-
-            /* Hide decorative elements */
-            nav, .no-print, .bg-blobs, footer { display: none !important; }
-            
-            /* Remove glass styling and shadows for clean print */
-            .glass-card, .bg-white, .bg-slate-50, .bg-slate-900, .bg-slate-800\/50, .bg-gradient-to-br { 
-                box-shadow: none !important; 
-                border: none !important; 
-                background: transparent !important; 
-                backdrop-filter: none !important;
-            }
-
-            /* Manage Spacing to prevent gaps */
-            section { 
-                padding-top: 1rem !important; 
-                padding-bottom: 1rem !important; 
-                margin: 0 !important;
-                page-break-inside: auto;
-            }
-            
-            /* Avoid page breaks inside logical groups */
-            .grid > div, .glass-card, ul li, .timeline-line > div {
-                page-break-inside: avoid !important;
-            }
-            h2, h3, h4 { page-break-after: avoid !important; }
-            
-            /* Convert Text Gradients to Solid Black */
-            .text-gradient { 
-                background: none !important; 
-                -webkit-text-fill-color: #0f172a !important; 
-                color: #0f172a !important; 
-            }
-
-            /* Invert dark sections for readability */
-            #education { background-color: white !important; color: #0f172a !important; }
-            #education h2, #education h3, #education h4, .text-white { color: #0f172a !important; }
-            #education p, #education span { color: #334155 !important; border-color: #e2e8f0 !important; }
-        }
-
         /* Glassmorphism & UI Utilities for Web */
         .glass-card {
             background: rgba(255, 255, 255, 0.7);
@@ -134,6 +83,7 @@
         }
         .animation-delay-2000 { animation-delay: 2s; }
         .animation-delay-4000 { animation-delay: 4s; }
+        
         .timeline-line::before {
             content: '';
             position: absolute;
@@ -143,19 +93,73 @@
         @media (max-width: 768px) {
             .timeline-line::before { left: 1rem; }
         }
+
+        /* STRICTLY ISOLATED PRINT STYLES - Will not affect web view */
+        @media print {
+            @page {
+                size: A4;
+                margin: 0.4in 0.5in;
+            }
+            body { 
+                background: white !important; 
+                color: #0f172a !important; 
+                font-size: 10.5pt !important;
+            }
+            nav, footer, .no-print, .bg-blobs, #interests { 
+                display: none !important; 
+            }
+            /* Squash padding to fit on 2 pages */
+            section { 
+                padding-top: 1.25rem !important; 
+                padding-bottom: 1.25rem !important; 
+                page-break-inside: auto;
+            }
+            .grid > div, .glass-card, ul li, .timeline-group {
+                page-break-inside: avoid !important;
+            }
+            h2, h3, h4 { page-break-after: avoid !important; }
+            /* Remove aesthetic backgrounds and shadows for clean print */
+            .glass-card, .bg-white, .bg-slate-50, .bg-slate-900, .bg-slate-800\/50, .bg-gradient-to-br, .print-bg-transparent { 
+                box-shadow: none !important; 
+                border: none !important; 
+                background: transparent !important; 
+                backdrop-filter: none !important;
+                padding: 0 !important;
+            }
+            .text-gradient { 
+                background: none !important; 
+                -webkit-text-fill-color: #0f172a !important; 
+                color: #0f172a !important; 
+            }
+            /* Invert dark education section */
+            #education, #education h2, #education h3, #education h4, .text-white { 
+                background-color: white !important; 
+                color: #0f172a !important; 
+            }
+            #education p, #education span { 
+                color: #334155 !important; 
+            }
+            /* Hide timeline dots and lines for print readability */
+            .timeline-line::before { display: none !important; }
+            .timeline-dot { display: none !important; }
+            .timeline-content { margin-left: 0 !important; }
+            
+            /* Hide icons that don't make sense on paper */
+            .print-icon-hide { display: none !important; }
+        }
     </style>
 </head>
 <body class="bg-slate-50 text-slate-700 font-sans antialiased selection:bg-brand-500 selection:text-white select-none relative overflow-x-hidden">
 
     <!-- Ambient Background Blobs -->
-    <div class="bg-blobs absolute top-0 left-0 w-full h-full overflow-hidden -z-10 pointer-events-none print:hidden" aria-hidden="true">
+    <div class="bg-blobs absolute top-0 left-0 w-full h-full overflow-hidden -z-10 pointer-events-none" aria-hidden="true">
         <div class="absolute top-[-5%] left-[-10%] w-72 md:w-96 h-72 md:h-96 bg-brand-100 rounded-full mix-blend-multiply filter blur-3xl opacity-70 animate-blob"></div>
         <div class="absolute top-[10%] right-[-5%] w-72 md:w-96 h-72 md:h-96 bg-purple-100 rounded-full mix-blend-multiply filter blur-3xl opacity-70 animate-blob animation-delay-2000"></div>
         <div class="absolute top-[20%] left-[20%] w-72 md:w-96 h-72 md:h-96 bg-pink-100 rounded-full mix-blend-multiply filter blur-3xl opacity-70 animate-blob animation-delay-4000"></div>
     </div>
 
     <!-- Navigation -->
-    <nav class="sticky top-0 z-50 glass-card transition-all duration-300 print:hidden">
+    <nav class="sticky top-0 z-50 glass-card transition-all duration-300">
         <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 relative">
             <div class="flex justify-between items-center h-20">
                 <div class="flex-shrink-0 flex items-center">
@@ -209,65 +213,63 @@
     <main id="main-content">
         
         <!-- Hero Section -->
-        <!-- Added print:pt-0 to reduce top gap -->
-        <section id="hero" class="relative pt-20 pb-24 lg:pt-32 lg:pb-32 overflow-hidden print:pt-4 print:pb-6">
+        <section id="hero" class="relative pt-20 pb-24 lg:pt-32 lg:pb-32 overflow-hidden print:pt-0 print:pb-4">
             <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
                 <div class="flex flex-col lg:flex-row items-center gap-12 lg:gap-20 print:flex-row print:gap-8">
                     
-                    <!-- Profile Image (Reduced size for print) -->
-                    <div class="relative group print:w-32 print:h-32 shrink-0">
-                        <div class="absolute -inset-1 bg-gradient-to-r from-brand-500 to-purple-600 rounded-full blur opacity-25 group-hover:opacity-50 transition duration-1000 print:hidden"></div>
+                    <!-- Profile Image -->
+                    <div class="relative group shrink-0 print:w-32 print:h-32">
+                        <div class="absolute -inset-1 bg-gradient-to-r from-brand-500 to-purple-600 rounded-full blur opacity-25 group-hover:opacity-50 transition duration-1000 group-hover:duration-200 print:hidden"></div>
                         <img src="profile.jpg" onerror="this.onerror=null; this.src='https://ui-avatars.com/api/?name=Junaid&background=e0e7ff&color=4f46e5&size=256';" alt="Junaid Profile Photo" class="relative w-48 h-48 lg:w-64 lg:h-64 print:w-32 print:h-32 rounded-full border-4 border-white print:border-slate-200 shadow-2xl print:shadow-none object-cover">
                     </div>
                     
                     <div class="flex-1 text-center lg:text-left print:text-left">
-                        <h1 class="text-5xl lg:text-7xl font-heading font-extrabold tracking-tight text-slate-900 mb-6 print:text-4xl print:mb-3">
-                            <!-- Hidden text in print using print:hidden -->
+                        <h1 class="text-5xl lg:text-7xl print:text-4xl font-heading font-extrabold tracking-tight text-slate-900 mb-6 print:mb-2">
                             <span class="print:hidden">Hello. I'm </span><span class="text-gradient bg-gradient-to-r from-brand-600 to-purple-600">Junaid</span>
                         </h1>
                         
                         <!-- Dynamic Role Badges -->
-                        <div class="flex flex-wrap justify-center lg:justify-start gap-3 mb-8 print:mb-4 print:gap-2">
-    <span class="px-4 py-1.5 rounded-full bg-brand-100 print:bg-transparent print:border-slate-300 print:text-slate-800 text-brand-700 font-semibold text-sm border border-brand-200 shadow-sm print:shadow-none print:px-0 print:border-none print:pr-1">
-        Educator<span class="hidden print:inline ml-2 text-slate-400">•</span>
-    </span>
-    <span class="px-4 py-1.5 rounded-full bg-purple-100 print:bg-transparent print:border-slate-300 print:text-slate-800 text-purple-700 font-semibold text-sm border border-purple-200 shadow-sm print:shadow-none print:px-0 print:border-none print:pr-1">
-        Digital Operations & PRO<span class="hidden print:inline ml-2 text-slate-400">•</span>
-    </span>
-    <span class="px-4 py-1.5 rounded-full bg-pink-100 print:bg-transparent print:border-slate-300 print:text-slate-800 text-pink-700 font-semibold text-sm border border-pink-200 shadow-sm print:shadow-none print:px-0 print:border-none">
-        Content Strategist & Editor
-    </span>
-</div>
+                        <div class="flex flex-wrap justify-center lg:justify-start gap-3 mb-8 print:mb-3 print:gap-1">
+                            <span class="px-4 py-1.5 rounded-full bg-brand-100 print-bg-transparent text-brand-700 font-semibold text-sm border border-brand-200 shadow-sm print:px-0">
+                                Educator<span class="hidden print:inline ml-1 text-slate-400">•</span>
+                            </span>
+                            <span class="px-4 py-1.5 rounded-full bg-purple-100 print-bg-transparent text-purple-700 font-semibold text-sm border border-purple-200 shadow-sm print:px-0">
+                                Digital Operations & PRO<span class="hidden print:inline ml-1 text-slate-400">•</span>
+                            </span>
+                            <span class="px-4 py-1.5 rounded-full bg-pink-100 print-bg-transparent text-pink-700 font-semibold text-sm border border-pink-200 shadow-sm print:px-0">
+                                Content Strategist & Editor
+                            </span>
+                        </div>
                         
-                        <!-- Contact Info & ATS-Friendly Links for Print -->
-                        <div class="flex flex-col sm:flex-row flex-wrap items-center justify-center lg:justify-start gap-4 print:gap-y-1 print:gap-x-4 text-slate-500 mb-8 print:mb-0 font-medium">
-                            <div class="flex items-center"><i data-lucide="map-pin" class="w-4 h-4 mr-2 text-brand-500 print:hidden" aria-hidden="true"></i> Kozhikode, Kerala</div>
+                        <!-- Contact Info -->
+                        <div class="flex flex-col sm:flex-row flex-wrap items-center justify-center lg:justify-start gap-4 text-slate-500 mb-8 print:mb-0 font-medium">
+                            <div class="flex items-center"><i data-lucide="map-pin" class="w-4 h-4 mr-2 text-brand-500 print-icon-hide" aria-hidden="true"></i> Kozhikode, Kerala</div>
                             <div class="hidden sm:block text-slate-300 print:hidden" aria-hidden="true">•</div>
-                            <div class="flex items-center"><i data-lucide="mail" class="w-4 h-4 mr-2 text-brand-500 print:hidden" aria-hidden="true"></i> <a href="mailto:abdjunaidkv@gmail.com" class="hover:text-brand-600 print:text-slate-800 transition-colors">abdjunaidkv@gmail.com</a></div>
+                            <div class="flex items-center"><i data-lucide="mail" class="w-4 h-4 mr-2 text-brand-500 print-icon-hide" aria-hidden="true"></i> <a href="mailto:abdjunaidkv@gmail.com" class="hover:text-brand-600 transition-colors">abdjunaidkv@gmail.com</a></div>
                             <div class="hidden sm:block text-slate-300 print:hidden" aria-hidden="true">•</div>
-                            <div class="flex items-center"><i data-lucide="phone" class="w-4 h-4 mr-2 text-brand-500 print:hidden" aria-hidden="true"></i> <a href="tel:+919645555771" class="hover:text-brand-600 print:text-slate-800 transition-colors">+91 964 5555 771</a></div>
+                            <div class="flex items-center"><i data-lucide="phone" class="w-4 h-4 mr-2 text-brand-500 print-icon-hide" aria-hidden="true"></i> <a href="tel:+919645555771" class="hover:text-brand-600 transition-colors">+91 964 5555 771</a></div>
                             
                             <!-- ATS Friendly Text Links (Visible ONLY in Print) -->
-                            <div class="hidden print:flex flex-wrap gap-x-4 gap-y-1 w-full mt-1">
+                            <div class="hidden print:flex flex-wrap gap-x-4 gap-y-1 w-full mt-1 text-sm">
                                 <div><span class="font-bold text-slate-800">LinkedIn:</span> linkedin.com/in/junaidkayakkodi</div>
                                 <div><span class="font-bold text-slate-800">Instagram:</span> instagram.com/abd_kv</div>
                             </div>
                         </div>
 
-                        <!-- Web-Only Action Links & Socials (Hidden in Print) -->
-                        <div class="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-6 print:hidden">
+                        <!-- Action Links & Socials (Hidden in print) -->
+                        <div class="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-6 no-print">
                             <div class="flex space-x-4">
-                                <a href="https://www.linkedin.com/in/junaidkayakkodi" target="_blank" class="w-12 h-12 flex items-center justify-center rounded-full bg-white shadow-sm border border-slate-200 text-slate-500 hover:text-[#0a66c2]" aria-label="LinkedIn Profile">
+                                <a href="https://www.linkedin.com/in/junaidkayakkodi" target="_blank" class="w-12 h-12 flex items-center justify-center rounded-full bg-white shadow-sm border border-slate-200 text-slate-500 hover:text-[#0a66c2] hover:shadow-md hover:border-[#0a66c2]/30 transition-all" aria-label="LinkedIn Profile">
                                     <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg>
                                 </a>
-                                <a href="https://www.instagram.com/abd_kv" target="_blank" class="w-12 h-12 flex items-center justify-center rounded-full bg-white shadow-sm border border-slate-200 text-slate-500 hover:text-[#E1306C]" aria-label="Instagram Profile">
+                                <a href="https://www.instagram.com/abd_kv" target="_blank" class="w-12 h-12 flex items-center justify-center rounded-full bg-white shadow-sm border border-slate-200 text-slate-500 hover:text-[#E1306C] hover:shadow-md hover:border-[#E1306C]/30 transition-all" aria-label="Instagram Profile">
                                     <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path fill-rule="evenodd" d="M12.315 2c2.43 0 2.784.013 3.808.06 1.064.049 1.791.218 2.427.465a4.902 4.902 0 011.772 1.153 4.902 4.902 0 011.153 1.772c.247.636.416 1.363.465 2.427.048 1.067.06 1.407.06 4.123v.08c0 2.643-.012 2.987-.06 4.043-.049 1.064-.218 1.791-.465 2.427a4.902 4.902 0 01-1.153 1.772 4.902 4.902 0 01-1.772 1.153c-.636.247-1.363.416-2.427.465-1.067.048-1.407.06-4.123.06h-.08c-2.643 0-2.987-.012-4.043-.06-1.064-.049-1.791-.218-2.427-.465a4.902 4.902 0 01-1.772-1.153 4.902 4.902 0 01-1.153-1.772c-.247-.636-.416-1.363-.465-2.427-.047-1.024-.06-1.379-.06-3.808v-.63c0-2.43.013-2.784.06-3.808.049-1.064.218-1.791.465-2.427a4.902 4.902 0 011.153-1.772A4.902 4.902 0 015.45 2.525c.636-.247 1.363-.416 2.427-.465C8.901 2.013 9.256 2 11.685 2h.63zm-.081 1.802h-.468c-2.456 0-2.784.011-3.807.058-.975.045-1.504.207-1.857.344-.467.182-.8.398-1.15.748-.35.35-.566.683-.748 1.15-.137.353-.3.882-.344 1.857-.047 1.023-.058 1.351-.058 3.807v.468c0 2.456.011 2.784.058 3.807.045.975.207 1.504.344 1.857.182.466.399.8.748 1.15.35.35.683.566 1.15.748.353.137.882.3 1.857.344 1.054.048 1.37.058 4.041.058h.08c2.597 0 2.917-.01 3.96-.058.976-.045 1.505-.207 1.858-.344.466-.182.8-.398 1.15-.748.35-.35.566-.683.748-1.15.137-.353.3-.882.344-1.857.048-1.055.058-1.37.058-4.041v-.08c0-2.597-.01-2.917-.058-3.96-.045-.976-.207-1.505-.344-1.858a3.097 3.097 0 00-.748-1.15 3.098 3.098 0 00-1.15-.748c-.353-.137-.882-.3-1.857-.344-1.023-.047-1.351-.058-3.807-.058zM12 6.865a5.135 5.135 0 110 10.27 5.135 5.135 0 010-10.27zm0 1.802a3.333 3.333 0 100 6.666 3.333 3.333 0 000-6.666zm5.338-3.205a1.2 1.2 0 110 2.4 1.2 1.2 0 010-2.4z" clip-rule="evenodd"/></svg>
                                 </a>
-                                <a href="https://wa.me/919645555771" target="_blank" class="w-12 h-12 flex items-center justify-center rounded-full bg-white shadow-sm border border-slate-200 text-slate-500 hover:text-[#25D366]" aria-label="WhatsApp Contact">
+                                <a href="https://wa.me/919645555771" target="_blank" class="w-12 h-12 flex items-center justify-center rounded-full bg-white shadow-sm border border-slate-200 text-slate-500 hover:text-[#25D366] hover:shadow-md hover:border-[#25D366]/30 transition-all" aria-label="WhatsApp Contact">
                                     <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
                                 </a>
                             </div>
-                            <a href="#projects" class="hidden sm:inline-flex items-center font-medium text-slate-600 hover:text-brand-600">
+                            <a href="#projects" class="hidden sm:inline-flex items-center font-medium text-slate-600 hover:text-brand-600 transition-colors">
                                 Explore my work <i data-lucide="arrow-right" class="w-4 h-4 ml-1 mt-0.5"></i>
                             </a>
                         </div>
@@ -277,157 +279,169 @@
         </section>
 
         <!-- Editorial Summary -->
-        <section id="about" class="py-20 print:py-4 bg-white relative">
+        <section id="about" class="py-20 bg-white relative">
             <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center print:text-left">
-                <h2 class="text-sm font-bold text-brand-600 print:text-slate-900 tracking-widest uppercase mb-6 print:mb-2">Professional Philosophy</h2>
-                <p class="text-xl md:text-2xl print:text-base font-light text-slate-700 leading-relaxed tracking-wide">
+                <h2 class="text-sm font-bold text-brand-600 tracking-widest uppercase mb-6 print:mb-2 print:text-slate-900">Professional Philosophy</h2>
+                <p class="text-xl md:text-2xl font-light text-slate-700 leading-relaxed tracking-wide print:text-base">
                     A dynamic blend of academic depth and digital fluency. I combine a rigorous foundation in <span class="font-semibold text-slate-900">Islamic theology and multilingual instruction</span> with modern expertise in <span class="font-semibold text-slate-900">digital operations, public relations, and content strategy</span>. Whether I am curating an engaging curriculum, optimizing administrative workflows with AI, or shaping the editorial direction for state-level conferences, I bring precision, creativity, and purposeful leadership to every endeavor.
                 </p>
             </div>
         </section>
 
         <!-- Expertise Bento Grid -->
-        <section id="skills" class="py-20 print:py-4 bg-slate-50 border-t border-slate-100 print:border-none">
+        <section id="skills" class="py-20 bg-slate-50 border-t border-slate-100">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div class="mb-16 print:mb-4">
-                    <h2 class="text-3xl md:text-4xl print:text-2xl font-heading font-extrabold text-slate-900 border-b pb-2 print:border-slate-300">Core Expertise</h2>
+                    <h2 class="text-3xl md:text-4xl print:text-2xl font-heading font-extrabold text-slate-900 print:border-b print:pb-2">Core Expertise.</h2>
+                    <p class="text-slate-500 mt-2 text-lg print:hidden">The three pillars driving my professional methodology.</p>
                 </div>
                 
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8 print:gap-4 print:grid-cols-3">
                     
                     <!-- Pillar 1 -->
-                    <div class="glass-card rounded-3xl p-8 print:p-0 transition-transform duration-300">
-                        <h3 class="font-heading font-bold text-slate-900 text-xl print:text-lg mb-4 print:mb-2 flex items-center">
-                            <i data-lucide="graduation-cap" class="w-5 h-5 mr-2 print:hidden" aria-hidden="true"></i> Educational Pedagogy
-                        </h3>
+                    <div class="glass-card rounded-3xl p-8 hover:-translate-y-1 transition-transform duration-300">
+                        <div class="w-14 h-14 rounded-2xl bg-brand-100 text-brand-600 flex items-center justify-center mb-6 print-icon-hide">
+                            <i data-lucide="graduation-cap" class="w-7 h-7" aria-hidden="true"></i>
+                        </div>
+                        <h3 class="font-heading font-bold text-slate-900 text-xl print:text-lg mb-4 print:mb-2">Educational Pedagogy</h3>
                         <ul class="space-y-3 print:space-y-1 text-slate-600 print:text-sm">
-                            <li class="flex items-start"><span class="mr-2 text-brand-500 font-bold">•</span> Curriculum & Lesson Design</li>
-                            <li class="flex items-start"><span class="mr-2 text-brand-500 font-bold">•</span> Multilingual Instruction</li>
-                            <li class="flex items-start"><span class="mr-2 text-brand-500 font-bold">•</span> Islamic Theology (Wafy)</li>
-                            <li class="flex items-start"><span class="mr-2 text-brand-500 font-bold">•</span> Moral Education (Tarbiyah)</li>
-                            <li class="flex items-start"><span class="mr-2 text-brand-500 font-bold">•</span> Student-Centric Learning</li>
+                            <li class="flex items-start"><i data-lucide="check" class="w-4 h-4 text-brand-500 mr-3 mt-1 shrink-0 print-icon-hide" aria-hidden="true"></i><span class="hidden print:inline mr-2 text-brand-600 font-bold">•</span> Curriculum & Lesson Design</li>
+                            <li class="flex items-start"><i data-lucide="check" class="w-4 h-4 text-brand-500 mr-3 mt-1 shrink-0 print-icon-hide" aria-hidden="true"></i><span class="hidden print:inline mr-2 text-brand-600 font-bold">•</span> Multilingual Instruction</li>
+                            <li class="flex items-start"><i data-lucide="check" class="w-4 h-4 text-brand-500 mr-3 mt-1 shrink-0 print-icon-hide" aria-hidden="true"></i><span class="hidden print:inline mr-2 text-brand-600 font-bold">•</span> Islamic Theology (Wafy)</li>
+                            <li class="flex items-start"><i data-lucide="check" class="w-4 h-4 text-brand-500 mr-3 mt-1 shrink-0 print-icon-hide" aria-hidden="true"></i><span class="hidden print:inline mr-2 text-brand-600 font-bold">•</span> Moral Education (Tarbiyah)</li>
+                            <li class="flex items-start"><i data-lucide="check" class="w-4 h-4 text-brand-500 mr-3 mt-1 shrink-0 print-icon-hide" aria-hidden="true"></i><span class="hidden print:inline mr-2 text-brand-600 font-bold">•</span> Student-Centric Learning</li>
                         </ul>
                     </div>
 
                     <!-- Pillar 2 -->
-                    <div class="glass-card rounded-3xl p-8 print:p-0 transition-transform duration-300">
-                        <h3 class="font-heading font-bold text-slate-900 text-xl print:text-lg mb-4 print:mb-2 flex items-center">
-                            <i data-lucide="cpu" class="w-5 h-5 mr-2 print:hidden" aria-hidden="true"></i> Digital Operations
-                        </h3>
+                    <div class="glass-card rounded-3xl p-8 hover:-translate-y-1 transition-transform duration-300">
+                        <div class="w-14 h-14 rounded-2xl bg-purple-100 text-purple-600 flex items-center justify-center mb-6 print-icon-hide">
+                            <i data-lucide="cpu" class="w-7 h-7" aria-hidden="true"></i>
+                        </div>
+                        <h3 class="font-heading font-bold text-slate-900 text-xl print:text-lg mb-4 print:mb-2">Digital Operations</h3>
                         <ul class="space-y-3 print:space-y-1 text-slate-600 print:text-sm">
-                            <li class="flex items-start"><span class="mr-2 text-purple-500 font-bold">•</span> AI Tools & Ed-Tech Workflow</li>
-                            <li class="flex items-start"><span class="mr-2 text-purple-500 font-bold">•</span> Public Relations & Media</li>
-                            <li class="flex items-start"><span class="mr-2 text-purple-500 font-bold">•</span> Financial Admin (Tally & Excel)</li>
-                            <li class="flex items-start"><span class="mr-2 text-purple-500 font-bold">•</span> Data Entry & Digitalization</li>
-                            <li class="flex items-start"><span class="mr-2 text-purple-500 font-bold">•</span> Organization Management</li>
+                            <li class="flex items-start"><i data-lucide="check" class="w-4 h-4 text-purple-500 mr-3 mt-1 shrink-0 print-icon-hide" aria-hidden="true"></i><span class="hidden print:inline mr-2 text-purple-600 font-bold">•</span> AI Tools & Ed-Tech Workflow</li>
+                            <li class="flex items-start"><i data-lucide="check" class="w-4 h-4 text-purple-500 mr-3 mt-1 shrink-0 print-icon-hide" aria-hidden="true"></i><span class="hidden print:inline mr-2 text-purple-600 font-bold">•</span> Public Relations & Media</li>
+                            <li class="flex items-start"><i data-lucide="check" class="w-4 h-4 text-purple-500 mr-3 mt-1 shrink-0 print-icon-hide" aria-hidden="true"></i><span class="hidden print:inline mr-2 text-purple-600 font-bold">•</span> Financial Administration</li>
+                            <li class="flex items-start"><i data-lucide="check" class="w-4 h-4 text-purple-500 mr-3 mt-1 shrink-0 print-icon-hide" aria-hidden="true"></i><span class="hidden print:inline mr-2 text-purple-600 font-bold">•</span> Data Entry & Digitalization</li>
+                            <li class="flex items-start"><i data-lucide="check" class="w-4 h-4 text-purple-500 mr-3 mt-1 shrink-0 print-icon-hide" aria-hidden="true"></i><span class="hidden print:inline mr-2 text-purple-600 font-bold">•</span> Organization Management</li>
                         </ul>
                     </div>
 
                     <!-- Pillar 3 -->
-                    <div class="glass-card rounded-3xl p-8 print:p-0 transition-transform duration-300">
-                        <h3 class="font-heading font-bold text-slate-900 text-xl print:text-lg mb-4 print:mb-2 flex items-center">
-                            <i data-lucide="pen-tool" class="w-5 h-5 mr-2 print:hidden" aria-hidden="true"></i> Content Strategy
-                        </h3>
+                    <div class="glass-card rounded-3xl p-8 hover:-translate-y-1 transition-transform duration-300">
+                        <div class="w-14 h-14 rounded-2xl bg-pink-100 text-pink-600 flex items-center justify-center mb-6 print-icon-hide">
+                            <i data-lucide="pen-tool" class="w-7 h-7" aria-hidden="true"></i>
+                        </div>
+                        <h3 class="font-heading font-bold text-slate-900 text-xl print:text-lg mb-4 print:mb-2">Content Strategy</h3>
                         <ul class="space-y-3 print:space-y-1 text-slate-600 print:text-sm">
-                            <li class="flex items-start"><span class="mr-2 text-pink-500 font-bold">•</span> Media Content Direction</li>
-                            <li class="flex items-start"><span class="mr-2 text-pink-500 font-bold">•</span> Copywriting & Brochure Design</li>
-                            <li class="flex items-start"><span class="mr-2 text-pink-500 font-bold">•</span> Creative Writing & Poetry</li>
-                            <li class="flex items-start"><span class="mr-2 text-pink-500 font-bold">•</span> Technical Editing & Proofing</li>
-                            <li class="flex items-start"><span class="mr-2 text-pink-500 font-bold">•</span> Journalism & Reports</li>
+                            <li class="flex items-start"><i data-lucide="check" class="w-4 h-4 text-pink-500 mr-3 mt-1 shrink-0 print-icon-hide" aria-hidden="true"></i><span class="hidden print:inline mr-2 text-pink-600 font-bold">•</span> Media Content Direction</li>
+                            <li class="flex items-start"><i data-lucide="check" class="w-4 h-4 text-pink-500 mr-3 mt-1 shrink-0 print-icon-hide" aria-hidden="true"></i><span class="hidden print:inline mr-2 text-pink-600 font-bold">•</span> Copywriting & Brochure Design</li>
+                            <li class="flex items-start"><i data-lucide="check" class="w-4 h-4 text-pink-500 mr-3 mt-1 shrink-0 print-icon-hide" aria-hidden="true"></i><span class="hidden print:inline mr-2 text-pink-600 font-bold">•</span> Creative Writing & Poetry</li>
+                            <li class="flex items-start"><i data-lucide="check" class="w-4 h-4 text-pink-500 mr-3 mt-1 shrink-0 print-icon-hide" aria-hidden="true"></i><span class="hidden print:inline mr-2 text-pink-600 font-bold">•</span> Technical Editing & Proofing</li>
+                            <li class="flex items-start"><i data-lucide="check" class="w-4 h-4 text-pink-500 mr-3 mt-1 shrink-0 print-icon-hide" aria-hidden="true"></i><span class="hidden print:inline mr-2 text-pink-600 font-bold">•</span> Journalism & Reports</li>
                         </ul>
                     </div>
                 </div>
 
-                <!-- Soft Skills Cloud (Condenses in print) -->
-                <div class="mt-8 print:mt-6 bg-white p-8 print:p-0 rounded-3xl border print:border-none shadow-sm print:shadow-none flex flex-col md:flex-row gap-8 print:gap-2 items-start md:items-center">
+                <!-- Soft Skills Cloud -->
+                <div class="mt-8 bg-white p-8 rounded-3xl border border-slate-100 shadow-sm flex flex-col md:flex-row gap-8 items-start md:items-center print-bg-transparent">
                     <div class="shrink-0 flex items-center">
-                        <h3 class="font-heading font-bold text-slate-900 text-lg print:text-base print:whitespace-nowrap">Professional Traits:</h3>
+                        <div class="w-10 h-10 rounded-full bg-slate-100 flex items-center justify-center mr-4 print-icon-hide">
+                            <i data-lucide="fingerprint" class="w-5 h-5 text-slate-600" aria-hidden="true"></i>
+                        </div>
+                        <h3 class="font-heading font-bold text-slate-900 text-lg print:text-base print:whitespace-nowrap">Professional Traits</h3>
                     </div>
                     <div class="flex flex-wrap gap-2.5 print:gap-1.5">
-                        <span class="px-4 py-1.5 print:px-2 print:py-0 print:border-none bg-slate-50 print:bg-transparent text-slate-700 rounded-full text-sm font-medium border print:after:content-[','] last:print:after:content-['']">Empathetic Leadership</span>
-                        <span class="px-4 py-1.5 print:px-2 print:py-0 print:border-none bg-slate-50 print:bg-transparent text-slate-700 rounded-full text-sm font-medium border print:after:content-[','] last:print:after:content-['']">Agile Problem-Solving</span>
-                        <span class="px-4 py-1.5 print:px-2 print:py-0 print:border-none bg-slate-50 print:bg-transparent text-slate-700 rounded-full text-sm font-medium border print:after:content-[','] last:print:after:content-['']">Conflict Resolution</span>
-                        <span class="px-4 py-1.5 print:px-2 print:py-0 print:border-none bg-slate-50 print:bg-transparent text-slate-700 rounded-full text-sm font-medium border print:after:content-[','] last:print:after:content-['']">Editorial Strategy</span>
-                        <span class="px-4 py-1.5 print:px-2 print:py-0 print:border-none bg-slate-50 print:bg-transparent text-slate-700 rounded-full text-sm font-medium border print:after:content-[','] last:print:after:content-['']">Public Speaking</span>
-                        <span class="px-4 py-1.5 print:px-2 print:py-0 print:border-none bg-slate-50 print:bg-transparent text-slate-700 rounded-full text-sm font-medium border print:after:content-[','] last:print:after:content-['']">Technical Communication</span>
+                        <span class="px-4 py-1.5 bg-slate-50 text-slate-700 rounded-full text-sm font-medium border border-slate-200 hover:bg-slate-100 transition-colors print-bg-transparent print:px-1 print:border-none print:after:content-[','] last:print:after:content-['']">Empathetic Leadership</span>
+                        <span class="px-4 py-1.5 bg-slate-50 text-slate-700 rounded-full text-sm font-medium border border-slate-200 hover:bg-slate-100 transition-colors print-bg-transparent print:px-1 print:border-none print:after:content-[','] last:print:after:content-['']">Agile Problem-Solving</span>
+                        <span class="px-4 py-1.5 bg-slate-50 text-slate-700 rounded-full text-sm font-medium border border-slate-200 hover:bg-slate-100 transition-colors print-bg-transparent print:px-1 print:border-none print:after:content-[','] last:print:after:content-['']">Conflict Resolution</span>
+                        <span class="px-4 py-1.5 bg-slate-50 text-slate-700 rounded-full text-sm font-medium border border-slate-200 hover:bg-slate-100 transition-colors print-bg-transparent print:px-1 print:border-none print:after:content-[','] last:print:after:content-['']">Editorial Strategy</span>
+                        <span class="px-4 py-1.5 bg-slate-50 text-slate-700 rounded-full text-sm font-medium border border-slate-200 hover:bg-slate-100 transition-colors print-bg-transparent print:px-1 print:border-none print:after:content-[','] last:print:after:content-['']">Public Speaking</span>
+                        <span class="px-4 py-1.5 bg-slate-50 text-slate-700 rounded-full text-sm font-medium border border-slate-200 hover:bg-slate-100 transition-colors print-bg-transparent print:px-1 print:border-none print:after:content-[','] last:print:after:content-['']">Technical Communication</span>
+                        <span class="px-4 py-1.5 bg-slate-50 text-slate-700 rounded-full text-sm font-medium border border-slate-200 hover:bg-slate-100 transition-colors print-bg-transparent print:px-1 print:border-none print:after:content-[','] last:print:after:content-['']">Cognitive Flexibility</span>
                     </div>
                 </div>
             </div>
         </section>
 
         <!-- Experience Timeline Section -->
-        <section id="experience" class="py-20 print:py-4 bg-white relative">
+        <section id="experience" class="py-20 bg-white relative">
             <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
-                <div class="mb-16 print:mb-6 border-b print:border-slate-300 pb-2">
-                    <h2 class="text-3xl md:text-4xl print:text-2xl font-heading font-extrabold text-slate-900">Career Journey</h2>
+                <div class="mb-16 print:mb-6 print:border-b print:pb-2">
+                    <h2 class="text-3xl md:text-4xl print:text-2xl font-heading font-extrabold text-slate-900">Career Journey.</h2>
+                    <p class="text-slate-500 mt-2 text-lg print:hidden">My professional track record across institutions.</p>
                 </div>
 
-                <div class="timeline-line relative space-y-12 print:space-y-6 pb-8 print:pb-0 print:before:hidden">
+                <div class="timeline-line relative space-y-12 print:space-y-6 pb-8">
                     
                     <!-- Job 1 -->
-                    <div class="relative flex items-start group">
-                        <div class="ml-12 print:ml-0 sm:ml-16 w-full">
-                            <div class="flex flex-col sm:flex-row justify-between print:items-end mb-2 print:mb-1">
-                                <h3 class="text-2xl print:text-lg font-heading font-extrabold text-slate-800">Islamic Teacher & PRO</h3>
-                                <span class="inline-block mt-2 sm:mt-0 px-3 py-1 print:px-0 print:py-0 bg-brand-50 print:bg-transparent text-brand-700 print:text-slate-500 text-xs font-bold tracking-wider uppercase rounded-md">March 2026 – Present</span>
+                    <div class="relative flex items-start group timeline-group">
+                        <div class="absolute left-4 sm:left-5 w-4 h-4 rounded-full bg-brand-500 border-4 border-white shadow ring-1 ring-brand-100 mt-1.5 z-10 group-hover:scale-125 transition-transform timeline-dot" aria-hidden="true"></div>
+                        <div class="ml-12 sm:ml-16 w-full timeline-content">
+                            <div class="flex flex-col sm:flex-row sm:justify-between print:items-end mb-2">
+                                <h3 class="text-2xl font-heading font-extrabold text-gradient bg-gradient-to-r from-brand-700 to-indigo-600 print:text-lg">Islamic Teacher & PRO</h3>
+                                <span class="inline-block mt-2 sm:mt-0 px-3 py-1 bg-brand-50 text-brand-700 text-xs font-bold tracking-wider uppercase rounded-md print-bg-transparent print:px-0 print:py-0 print:text-slate-500">March 2026 – Present</span>
                             </div>
                             <p class="text-slate-500 font-medium mb-4 print:mb-2 print:text-sm">Nibrasul Islam Secondary Madrasa, Mokeri</p>
-                            <ul class="space-y-2 print:space-y-1 text-slate-600 text-sm md:text-base print:text-sm leading-relaxed">
-                                <li class="flex items-start"><span class="mr-2 font-bold mt-0.5">•</span> Deliver comprehensive, curriculum-based Islamic instruction tailored to diverse learning needs.</li>
-                                <li class="flex items-start"><span class="mr-2 font-bold mt-0.5">•</span> Facilitate a values-oriented environment encouraging active discussion and moral reflection.</li>
-                                <li class="flex items-start"><span class="mr-2 font-bold mt-0.5">•</span> Manage the institution's official social media presence, curating engaging digital community content.</li>
+                            <ul class="space-y-2 text-slate-600 text-sm md:text-base print:text-sm leading-relaxed">
+                                <li class="flex items-start"><span class="mr-2 text-brand-400 print:text-slate-800 mt-0.5" aria-hidden="true">•</span> Deliver comprehensive, curriculum-based Islamic instruction tailored to diverse learning needs.</li>
+                                <li class="flex items-start"><span class="mr-2 text-brand-400 print:text-slate-800 mt-0.5" aria-hidden="true">•</span> Facilitate a values-oriented environment encouraging active discussion and moral reflection.</li>
+                                <li class="flex items-start"><span class="mr-2 text-brand-400 print:text-slate-800 mt-0.5" aria-hidden="true">•</span> Manage the institution's official social media presence, curating engaging digital community content.</li>
                             </ul>
                         </div>
                     </div>
 
                     <!-- Job 2 -->
-                    <div class="relative flex items-start group">
-                        <div class="ml-12 print:ml-0 sm:ml-16 w-full">
-                            <div class="flex flex-col sm:flex-row justify-between print:items-end mb-2 print:mb-1">
-                                <h3 class="text-2xl print:text-lg font-heading font-extrabold text-slate-800">Teacher & Technical Assistant</h3>
-                                <span class="inline-block mt-2 sm:mt-0 px-3 py-1 print:px-0 print:py-0 bg-slate-100 print:bg-transparent text-slate-600 print:text-slate-500 text-xs font-bold tracking-wider uppercase rounded-md">June 2025 – March 2026</span>
+                    <div class="relative flex items-start group timeline-group">
+                        <div class="absolute left-4 sm:left-5 w-4 h-4 rounded-full bg-slate-300 border-4 border-white shadow ring-1 ring-slate-100 mt-1.5 z-10 group-hover:bg-purple-500 group-hover:ring-purple-100 transition-colors timeline-dot" aria-hidden="true"></div>
+                        <div class="ml-12 sm:ml-16 w-full timeline-content">
+                            <div class="flex flex-col sm:flex-row sm:justify-between print:items-end mb-2">
+                                <h3 class="text-2xl font-heading font-extrabold text-slate-800 print:text-lg">Teacher & Technical Assistant</h3>
+                                <span class="inline-block mt-2 sm:mt-0 px-3 py-1 bg-slate-100 text-slate-600 text-xs font-bold tracking-wider uppercase rounded-md print-bg-transparent print:px-0 print:py-0 print:text-slate-500">June 2025 – March 2026</span>
                             </div>
                             <p class="text-slate-500 font-medium mb-4 print:mb-2 print:text-sm">Hidayathul Islam Higher Secondary Madrasa, Orkkatteri</p>
-                            <ul class="space-y-2 print:space-y-1 text-slate-600 text-sm md:text-base print:text-sm leading-relaxed">
-                                <li class="flex items-start"><span class="mr-2 font-bold mt-0.5">•</span> Spearheaded a complete institutional migration to digital records, improving operational speed.</li>
-                                <li class="flex items-start"><span class="mr-2 font-bold mt-0.5">•</span> Developed a custom online data management and exam results tracking system to streamline grading.</li>
-                                <li class="flex items-start"><span class="mr-2 font-bold mt-0.5">•</span> Coordinated schedules, managed internal communications, and tracked institutional progress parameters.</li>
+                            <ul class="space-y-2 text-slate-600 text-sm md:text-base print:text-sm leading-relaxed">
+                                <li class="flex items-start"><span class="mr-2 text-slate-300 print:text-slate-800 mt-0.5" aria-hidden="true">•</span> Spearheaded a complete institutional migration to digital records, improving operational speed.</li>
+                                <li class="flex items-start"><span class="mr-2 text-slate-300 print:text-slate-800 mt-0.5" aria-hidden="true">•</span> Developed a custom online data management and exam results tracking system to streamline grading.</li>
+                                <li class="flex items-start"><span class="mr-2 text-slate-300 print:text-slate-800 mt-0.5" aria-hidden="true">•</span> Coordinated schedules, managed internal communications, and tracked institutional progress parameters.</li>
                             </ul>
                         </div>
                     </div>
 
                     <!-- Job 3 -->
-                    <div class="relative flex items-start group">
-                        <div class="ml-12 print:ml-0 sm:ml-16 w-full">
-                            <div class="flex flex-col sm:flex-row justify-between print:items-end mb-2 print:mb-1">
-                                <h3 class="text-2xl print:text-lg font-heading font-extrabold text-slate-800">Accounting Trainee</h3>
-                                <span class="inline-block mt-2 sm:mt-0 px-3 py-1 print:px-0 print:py-0 bg-slate-100 print:bg-transparent text-slate-600 print:text-slate-500 text-xs font-bold tracking-wider uppercase rounded-md">Dec 2025 – March 2026</span>
+                    <div class="relative flex items-start group timeline-group">
+                        <div class="absolute left-4 sm:left-5 w-4 h-4 rounded-full bg-slate-300 border-4 border-white shadow ring-1 ring-slate-100 mt-1.5 z-10 group-hover:bg-pink-500 group-hover:ring-pink-100 transition-colors timeline-dot" aria-hidden="true"></div>
+                        <div class="ml-12 sm:ml-16 w-full timeline-content">
+                            <div class="flex flex-col sm:flex-row sm:justify-between print:items-end mb-2">
+                                <h3 class="text-2xl font-heading font-extrabold text-slate-800 print:text-lg">Accounting Trainee</h3>
+                                <span class="inline-block mt-2 sm:mt-0 px-3 py-1 bg-slate-100 text-slate-600 text-xs font-bold tracking-wider uppercase rounded-md print-bg-transparent print:px-0 print:py-0 print:text-slate-500">Dec 2025 – March 2026</span>
                             </div>
                             <p class="text-slate-500 font-medium mb-4 print:mb-2 print:text-sm">Al Ameen Accounting Services, Kuttiady</p>
-                            <ul class="space-y-2 print:space-y-1 text-slate-600 text-sm md:text-base print:text-sm leading-relaxed">
-                                <li class="flex items-start"><span class="mr-2 font-bold mt-0.5">•</span> Maintained flawless day-to-day financial records utilizing professional Tally software and Microsoft Excel.</li>
-                                <li class="flex items-start"><span class="mr-2 font-bold mt-0.5">•</span> Applied fundamental accounting principles to track assets, liabilities, and balance entries.</li>
+                            <ul class="space-y-2 text-slate-600 text-sm md:text-base print:text-sm leading-relaxed">
+                                <li class="flex items-start"><span class="mr-2 text-slate-300 print:text-slate-800 mt-0.5" aria-hidden="true">•</span> Maintained flawless day-to-day financial records utilizing professional Tally software and Microsoft Excel.</li>
+                                <li class="flex items-start"><span class="mr-2 text-slate-300 print:text-slate-800 mt-0.5" aria-hidden="true">•</span> Applied fundamental accounting principles to track assets, liabilities, and balance entries.</li>
                             </ul>
                         </div>
                     </div>
 
                     <!-- Older Roles Compact Grid -->
-                    <div class="relative flex items-start pt-6 print:pt-2">
-                        <div class="ml-12 print:ml-0 sm:ml-16 w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 print:grid-cols-3 print:gap-2">
-                            <div class="bg-slate-50 print:bg-transparent p-5 print:p-0 rounded-2xl border print:border-none border-slate-100">
-                                <h4 class="font-heading font-bold text-slate-900 mb-1">Travel Consultant</h4>
-                                <p class="text-xs text-brand-600 print:text-slate-500 font-semibold mb-2">Malabar Travels | 2025</p>
-                                <p class="text-xs text-slate-500 leading-relaxed">Managed accounts, data entry for e-services, and travel logistics.</p>
+                    <div class="relative flex items-start pt-6 print:pt-2 timeline-group">
+                        <div class="ml-12 sm:ml-16 w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 timeline-content print:grid-cols-3 print:gap-2">
+                            <div class="bg-slate-50 p-5 rounded-2xl border border-slate-100 print-bg-transparent print:p-0 print:border-none">
+                                <h4 class="font-heading font-bold text-slate-900 mb-1 print:text-sm">Travel Consultant</h4>
+                                <p class="text-xs text-brand-600 font-semibold mb-2 print:text-slate-500">Malabar Travels | 2025</p>
+                                <p class="text-xs text-slate-500 leading-relaxed print:text-[10px]">Managed accounts, e-services, and travel logistics.</p>
                             </div>
-                            <div class="bg-slate-50 print:bg-transparent p-5 print:p-0 rounded-2xl border print:border-none border-slate-100">
-                                <h4 class="font-heading font-bold text-slate-900 mb-1">Sub Editor & Digital Asst.</h4>
-                                <p class="text-xs text-purple-600 print:text-slate-500 font-semibold mb-2">Campus Journal | 2023 - 2025</p>
-                                <p class="text-xs text-slate-500 leading-relaxed">Managed content workflows, platform operations, and editing.</p>
+                            <div class="bg-slate-50 p-5 rounded-2xl border border-slate-100 print-bg-transparent print:p-0 print:border-none">
+                                <h4 class="font-heading font-bold text-slate-900 mb-1 print:text-sm">Sub Editor & Digital Asst.</h4>
+                                <p class="text-xs text-purple-600 font-semibold mb-2 print:text-slate-500">Campus Journal | 2023 - 2025</p>
+                                <p class="text-xs text-slate-500 leading-relaxed print:text-[10px]">Managed content workflows, platforms, and editing.</p>
                             </div>
-                            <div class="bg-slate-50 print:bg-transparent p-5 print:p-0 rounded-2xl border print:border-none border-slate-100 md:col-span-2 lg:col-span-1 print:col-span-1">
-                                <h4 class="font-heading font-bold text-slate-900 mb-1">College Union Secretary</h4>
-                                <p class="text-xs text-pink-600 print:text-slate-500 font-semibold mb-2">MTM Wafy College | 2022 - 2023</p>
-                                <p class="text-xs text-slate-500 leading-relaxed">Directed administrative functions and cross-committee communication.</p>
+                            <div class="bg-slate-50 p-5 rounded-2xl border border-slate-100 md:col-span-2 lg:col-span-1 print:col-span-1 print-bg-transparent print:p-0 print:border-none">
+                                <h4 class="font-heading font-bold text-slate-900 mb-1 print:text-sm">College Union Secretary</h4>
+                                <p class="text-xs text-pink-600 font-semibold mb-2 print:text-slate-500">MTM Wafy College | 2022 - 2023</p>
+                                <p class="text-xs text-slate-500 leading-relaxed print:text-[10px]">Directed administration and cross-committee communication.</p>
                             </div>
                         </div>
                     </div>
@@ -437,136 +451,145 @@
         </section>
 
         <!-- Projects Section -->
-        <section id="projects" class="py-20 print:py-4 bg-slate-50 border-t print:border-none border-slate-100">
+        <section id="projects" class="py-20 bg-slate-50 border-t border-slate-100 print:bg-white print:border-none">
             <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-                <div class="mb-12 print:mb-4 border-b print:border-slate-300 pb-2">
-                    <h2 class="text-3xl md:text-4xl print:text-2xl font-heading font-extrabold text-slate-900">Featured Developments</h2>
+                <div class="mb-12 print:mb-4 print:border-b print:pb-2">
+                    <h2 class="text-3xl md:text-4xl print:text-2xl font-heading font-extrabold text-slate-900">Featured Developments.</h2>
                 </div>
 
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-8 print:gap-6">
                     
                     <!-- Project 1: ResultVue -->
-                    <div class="bg-white print:bg-transparent p-8 print:p-0 rounded-3xl border print:border-none border-slate-200 shadow-sm transition-all relative">
+                    <div class="bg-white p-8 rounded-3xl border border-slate-200 shadow-sm hover:shadow-xl hover:border-brand-200 transition-all duration-300 group relative print-bg-transparent print:p-0 print:border-none">
                         <div class="flex justify-between items-start mb-6 print:mb-1">
-                            <div class="p-3 print:p-0 bg-brand-50 print:bg-transparent w-14 h-14 print:w-auto print:h-auto rounded-2xl text-brand-600 print:hidden flex items-center justify-center">
+                            <div class="p-3 bg-brand-50 w-14 h-14 rounded-2xl text-brand-600 flex items-center justify-center group-hover:bg-brand-600 group-hover:text-white transition-colors print-icon-hide">
                                 <i data-lucide="layout-dashboard" class="w-7 h-7" aria-hidden="true"></i>
                             </div>
-                            <!-- Live Link converts to raw text in print -->
-                            <a href="https://resultvue.github.io/" target="_blank" class="flex items-center text-xs font-bold tracking-widest uppercase text-slate-400 print:text-slate-800 print:normal-case print:font-medium print:tracking-normal hover:text-brand-600 transition-colors z-10 relative">
+                            <a href="https://resultvue.github.io/" target="_blank" class="flex items-center text-xs font-bold tracking-widest uppercase text-slate-400 hover:text-brand-600 transition-colors z-10 relative print:text-slate-800 print:normal-case print:tracking-normal print:font-medium">
                                 <span class="print:hidden">Live Preview</span>
                                 <span class="hidden print:inline">[ resultvue.github.io ]</span>
                                 <i data-lucide="external-link" class="w-3 h-3 ml-1.5 print:hidden" aria-hidden="true"></i>
                             </a>
                         </div>
-                        <h3 class="text-2xl print:text-lg font-heading font-bold text-slate-900 mb-2 print:mb-0">ResultVue</h3>
-                        <p class="text-sm font-semibold text-brand-600 print:text-slate-600 mb-4 print:mb-1">Exam Management System</p>
-                        <p class="text-slate-600 print:text-sm leading-relaxed">
+                        <h3 class="text-2xl font-heading font-bold text-slate-900 mb-2 print:text-lg print:mb-0">ResultVue</h3>
+                        <p class="text-sm font-semibold text-brand-600 mb-4 print:mb-1 print:text-slate-600">Exam Management System</p>
+                        <p class="text-slate-600 leading-relaxed print:text-sm">
                             Engineered to streamline digital operations and institutional grading, ResultVue is a custom-built online data management and exam tracking system offering a secure, intuitive digital evaluation platform.
                         </p>
                         <a href="https://resultvue.github.io/" target="_blank" class="absolute inset-0 z-0 print:hidden" aria-label="Visit ResultVue"></a>
                     </div>
 
                     <!-- Project 2: Nibrasul Islam Website -->
-                    <div class="bg-white print:bg-transparent p-8 print:p-0 rounded-3xl border print:border-none border-slate-200 shadow-sm transition-all relative">
+                    <div class="bg-white p-8 rounded-3xl border border-slate-200 shadow-sm hover:shadow-xl hover:border-emerald-200 transition-all duration-300 group relative print-bg-transparent print:p-0 print:border-none">
                         <div class="flex justify-between items-start mb-6 print:mb-1">
-                            <div class="p-3 print:p-0 bg-emerald-50 print:bg-transparent w-14 h-14 print:w-auto print:h-auto rounded-2xl text-emerald-600 print:hidden flex items-center justify-center">
+                            <div class="p-3 bg-emerald-50 w-14 h-14 rounded-2xl text-emerald-600 flex items-center justify-center group-hover:bg-emerald-600 group-hover:text-white transition-colors print-icon-hide">
                                 <i data-lucide="globe" class="w-7 h-7" aria-hidden="true"></i>
                             </div>
-                            <a href="https://nimmokeri.github.io/" target="_blank" class="flex items-center text-xs font-bold tracking-widest uppercase text-slate-400 print:text-slate-800 print:normal-case print:font-medium print:tracking-normal hover:text-emerald-600 transition-colors z-10 relative">
+                            <a href="https://nimmokeri.github.io/" target="_blank" class="flex items-center text-xs font-bold tracking-widest uppercase text-slate-400 hover:text-emerald-600 transition-colors z-10 relative print:text-slate-800 print:normal-case print:tracking-normal print:font-medium">
                                 <span class="print:hidden">Live Preview</span>
                                 <span class="hidden print:inline">[ nimmokeri.github.io ]</span>
                                 <i data-lucide="external-link" class="w-3 h-3 ml-1.5 print:hidden" aria-hidden="true"></i>
                             </a>
                         </div>
-                        <h3 class="text-2xl print:text-lg font-heading font-bold text-slate-900 mb-2 print:mb-0">Nibrasul Islam Madrasa</h3>
-                        <p class="text-sm font-semibold text-emerald-600 print:text-slate-600 mb-4 print:mb-1">Official Web Platform</p>
-                        <p class="text-slate-600 print:text-sm leading-relaxed">
+                        <h3 class="text-2xl font-heading font-bold text-slate-900 mb-2 print:text-lg print:mb-0">Nibrasul Islam Madrasa</h3>
+                        <p class="text-sm font-semibold text-emerald-600 mb-4 print:mb-1 print:text-slate-600">Official Web Platform</p>
+                        <p class="text-slate-600 leading-relaxed print:text-sm">
                             The official digital home for Nibrasul Islam Secondary Madrasa in Mokeri. I designed and deployed this platform to centralize updates and curate engaging digital community content.
                         </p>
-                        <a href="https://nimmokeri.github.io/" target="_blank" class="absolute inset-0 z-0 print:hidden"></a>
+                        <a href="https://nimmokeri.github.io/" target="_blank" class="absolute inset-0 z-0 print:hidden" aria-label="Visit Nibrasul Islam Madrasa Website"></a>
                     </div>
 
                     <!-- Project 3: MTM Alumni Portal -->
-                    <div class="bg-white print:bg-transparent p-8 print:p-0 rounded-3xl border print:border-none border-slate-200 shadow-sm transition-all relative">
+                    <div class="bg-white p-8 rounded-3xl border border-slate-200 shadow-sm hover:shadow-xl hover:border-blue-200 transition-all duration-300 group relative print-bg-transparent print:p-0 print:border-none">
                         <div class="flex justify-between items-start mb-6 print:mb-1">
-                            <div class="p-3 print:p-0 bg-blue-50 print:bg-transparent w-14 h-14 print:w-auto print:h-auto rounded-2xl text-blue-600 print:hidden flex items-center justify-center">
+                            <div class="p-3 bg-blue-50 w-14 h-14 rounded-2xl text-blue-600 flex items-center justify-center group-hover:bg-blue-600 group-hover:text-white transition-colors print-icon-hide">
                                 <i data-lucide="users" class="w-7 h-7" aria-hidden="true"></i>
                             </div>
-                            <a href="https://mtmalumni.github.io/" target="_blank" class="flex items-center text-xs font-bold tracking-widest uppercase text-slate-400 print:text-slate-800 print:normal-case print:font-medium print:tracking-normal hover:text-blue-600 transition-colors z-10 relative">
+                            <a href="https://mtmalumni.github.io/" target="_blank" class="flex items-center text-xs font-bold tracking-widest uppercase text-slate-400 hover:text-blue-600 transition-colors z-10 relative print:text-slate-800 print:normal-case print:tracking-normal print:font-medium">
                                 <span class="print:hidden">Live Preview</span>
                                 <span class="hidden print:inline">[ mtmalumni.github.io ]</span>
                                 <i data-lucide="external-link" class="w-3 h-3 ml-1.5 print:hidden" aria-hidden="true"></i>
                             </a>
                         </div>
-                        <h3 class="text-2xl print:text-lg font-heading font-bold text-slate-900 mb-2 print:mb-0">MTM Alumni Portal</h3>
-                        <p class="text-sm font-semibold text-blue-600 print:text-slate-600 mb-4 print:mb-1">Community Network</p>
-                        <p class="text-slate-600 print:text-sm leading-relaxed">
+                        <h3 class="text-2xl font-heading font-bold text-slate-900 mb-2 print:text-lg print:mb-0">MTM Alumni Portal</h3>
+                        <p class="text-sm font-semibold text-blue-600 mb-4 print:mb-1 print:text-slate-600">Community Network</p>
+                        <p class="text-slate-600 leading-relaxed print:text-sm">
                             A connectivity platform developed in collaboration with the MTM college alumni association. Designed to coordinate meetings, distribute communications, and strengthen the graduate network.
                         </p>
-                        <a href="https://mtmalumni.github.io/" target="_blank" class="absolute inset-0 z-0 print:hidden"></a>
+                        <a href="https://mtmalumni.github.io/" target="_blank" class="absolute inset-0 z-0 print:hidden" aria-label="Visit MTM Alumni Portal"></a>
                     </div>
 
                     <!-- Project 4: Arabic Curriculum -->
-<div class="bg-white print:bg-transparent p-8 print:p-0 rounded-3xl border print:border-none border-slate-200 shadow-sm transition-all relative group hover:shadow-xl hover:border-purple-200">
-    <div class="flex justify-between items-start mb-6 print:mb-1">
-        <div class="p-3 print:p-0 bg-purple-50 print:bg-transparent w-14 h-14 print:w-auto print:h-auto rounded-2xl text-purple-600 print:hidden flex items-center justify-center group-hover:bg-purple-600 group-hover:text-white transition-colors">
-            <i data-lucide="book-open-check" class="w-7 h-7" aria-hidden="true"></i>
-        </div>
-        <a href="https://arabicforkids.github.io/" target="_blank" class="flex items-center text-xs font-bold tracking-widest uppercase text-slate-400 print:text-slate-800 print:normal-case print:font-medium print:tracking-normal hover:text-purple-600 transition-colors z-10 relative">
-            <span class="print:hidden">Live Preview</span>
-            <span class="hidden print:inline">[ arabicforkids.github.io ]</span>
-            <i data-lucide="external-link" class="w-3 h-3 ml-1.5 print:hidden" aria-hidden="true"></i>
-        </a>
-    </div>
-    <h3 class="text-2xl print:text-lg font-heading font-bold text-slate-900 mb-2 print:mb-0">Arabic Curriculum E-Learning</h3>
-    <p class="text-sm font-semibold text-purple-600 print:text-slate-600 mb-4 print:mb-1">Alwan Value School</p>
-    <p class="text-slate-600 print:text-sm leading-relaxed">
-        Designed a comprehensive Arabic language curriculum and authored specialized online learning materials focused on engaging primary students and fostering early language acquisition.
-    </p>
-    <!-- Invisible full-card link overlay -->
-    <a href="https://arabicforkids.github.io/" target="_blank" class="absolute inset-0 z-0 print:hidden" aria-label="Visit Arabic for Kids"></a>
-</div>
+                    <div class="bg-white p-8 rounded-3xl border border-slate-200 shadow-sm hover:shadow-xl hover:border-purple-200 transition-all duration-300 group relative print-bg-transparent print:p-0 print:border-none">
+                        <div class="flex justify-between items-start mb-6 print:mb-1">
+                            <div class="p-3 bg-purple-50 w-14 h-14 rounded-2xl text-purple-600 flex items-center justify-center group-hover:bg-purple-600 group-hover:text-white transition-colors print-icon-hide">
+                                <i data-lucide="book-open-check" class="w-7 h-7" aria-hidden="true"></i>
+                            </div>
+                            <a href="https://arabicforkids.github.io/" target="_blank" class="flex items-center text-xs font-bold tracking-widest uppercase text-slate-400 hover:text-purple-600 transition-colors z-10 relative print:text-slate-800 print:normal-case print:tracking-normal print:font-medium">
+                                <span class="print:hidden">Live Preview</span>
+                                <span class="hidden print:inline">[ arabicforkids.github.io ]</span>
+                                <i data-lucide="external-link" class="w-3 h-3 ml-1.5 print:hidden" aria-hidden="true"></i>
+                            </a>
+                        </div>
+                        <h3 class="text-2xl font-heading font-bold text-slate-900 mb-2 print:text-lg print:mb-0">Arabic Curriculum E-Learning</h3>
+                        <p class="text-sm font-semibold text-purple-600 mb-4 print:mb-1 print:text-slate-600">Alwan Value School</p>
+                        <p class="text-slate-600 leading-relaxed print:text-sm">
+                            Designed a comprehensive Arabic language curriculum and authored specialized online learning materials focused on engaging primary students and fostering early language acquisition.
+                        </p>
+                        <a href="https://arabicforkids.github.io/" target="_blank" class="absolute inset-0 z-0 print:hidden" aria-label="Visit Arabic for Kids"></a>
+                    </div>
 
                 </div>
             </div>
         </section>
         
         <!-- Achievements Section -->
-        <section id="achievements" class="py-20 print:py-4 bg-white border-t print:border-none border-slate-100">
+        <section id="achievements" class="py-20 bg-white border-t border-slate-100 print:border-none">
             <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-                <div class="text-center print:text-left mb-16 print:mb-4 border-b print:border-slate-300 pb-2">
-                    <h2 class="text-3xl md:text-4xl print:text-2xl font-heading font-extrabold text-slate-900">Honors & Milestones</h2>
+                <div class="text-center mb-16 print:text-left print:mb-4 print:border-b print:pb-2">
+                    <h2 class="text-3xl md:text-4xl print:text-2xl font-heading font-extrabold text-slate-900">Honors & Milestones.</h2>
                     <div class="w-16 h-1.5 bg-gradient-to-r from-brand-500 to-purple-500 mx-auto rounded-full mt-6 print:hidden" aria-hidden="true"></div>
                 </div>
 
                 <div class="space-y-5 print:space-y-3">
-                    <div class="glass-card p-6 md:p-8 print:p-0 rounded-3xl flex flex-col md:flex-row gap-6 print:gap-0 items-start border print:border-none border-brand-100">
-                        <div class="p-4 bg-brand-50 rounded-2xl shrink-0 print:hidden">
-                            <i data-lucide="medal" class="w-8 h-8 text-brand-600" aria-hidden="true"></i>
+                    <div class="glass-card p-6 md:p-8 rounded-3xl flex flex-col md:flex-row gap-6 items-start hover:-translate-y-1 transition-transform border border-brand-100 print-bg-transparent print:p-0 print:border-none">
+                        <div class="p-4 bg-brand-50 text-brand-600 rounded-2xl shrink-0 print-icon-hide">
+                            <i data-lucide="medal" class="w-8 h-8" aria-hidden="true"></i>
                         </div>
                         <div>
-                            <h3 class="font-heading font-bold text-slate-900 text-xl md:text-2xl print:text-base mb-2 print:mb-1"><span class="print:mr-2 print:hidden">•</span> All Kerala 10th Rank | Wafy Postgraduate Course</h3>
-                            <p class="text-slate-600 print:text-sm leading-relaxed">Secured the 10th rank statewide in the prestigious Master's in Islamic Theology. Completed the rigorous 8-year theological curriculum in 7 years via an accelerated track.</p>
+                            <h3 class="font-heading font-bold text-slate-900 text-xl md:text-2xl mb-2 print:text-base print:mb-1"><span class="hidden print:inline mr-2">•</span> All Kerala 10th Rank | Wafy Postgraduate Course</h3>
+                            <p class="text-slate-600 leading-relaxed print:text-sm">Secured the 10th rank statewide in the prestigious Master's in Islamic Theology. Completed the rigorous 8-year theological curriculum in 7 years via an accelerated track.</p>
                         </div>
                     </div>
 
-                    <div class="glass-card p-6 md:p-8 print:p-0 rounded-3xl flex flex-col md:flex-row gap-6 print:gap-0 items-start">
-                        <div class="p-4 bg-yellow-50 rounded-2xl shrink-0 print:hidden">
-                            <i data-lucide="crown" class="w-8 h-8 text-yellow-600" aria-hidden="true"></i>
+                    <div class="glass-card p-6 md:p-8 rounded-3xl flex flex-col md:flex-row gap-6 items-start hover:-translate-y-1 transition-transform print-bg-transparent print:p-0 print:border-none">
+                        <div class="p-4 bg-yellow-50 text-yellow-600 rounded-2xl shrink-0 print-icon-hide">
+                            <i data-lucide="crown" class="w-8 h-8" aria-hidden="true"></i>
                         </div>
                         <div>
-                            <h3 class="font-heading font-bold text-slate-900 text-xl md:text-2xl print:text-base mb-2 print:mb-1"><span class="print:mr-2 print:hidden">•</span> 'Kala Prathibha' (Overall Arts Champion)</h3>
-                            <p class="text-slate-600 print:text-sm leading-relaxed">Awarded the prestigious 'Kala Prathibha' title consecutively in all college arts fests during my undergraduate degree period for multi-disciplinary artistic talent.</p>
+                            <h3 class="font-heading font-bold text-slate-900 text-xl md:text-2xl mb-2 print:text-base print:mb-1"><span class="hidden print:inline mr-2">•</span> 'Kala Prathibha' (Overall Arts Champion)</h3>
+                            <p class="text-slate-600 leading-relaxed print:text-sm">Awarded the prestigious 'Kala Prathibha' title consecutively in all college arts fests during my undergraduate degree period for multi-disciplinary artistic talent.</p>
                         </div>
                     </div>
 
-                    <div class="glass-card p-6 md:p-8 print:p-0 rounded-3xl flex flex-col md:flex-row gap-6 print:gap-0 items-start">
-                        <div class="p-4 bg-purple-50 rounded-2xl shrink-0 print:hidden">
-                            <i data-lucide="trophy" class="w-8 h-8 text-purple-600" aria-hidden="true"></i>
+                    <div class="glass-card p-6 md:p-8 rounded-3xl flex flex-col md:flex-row gap-6 items-start hover:-translate-y-1 transition-transform print-bg-transparent print:p-0 print:border-none">
+                        <div class="p-4 bg-purple-50 text-purple-600 rounded-2xl shrink-0 print-icon-hide">
+                            <i data-lucide="trophy" class="w-8 h-8" aria-hidden="true"></i>
                         </div>
                         <div>
-                            <h3 class="font-heading font-bold text-slate-900 text-xl md:text-2xl print:text-base mb-2 print:mb-1"><span class="print:mr-2 print:hidden">•</span> State First Prize Winner | State Wafy Fest</h3>
-                            <p class="text-slate-600 print:text-sm leading-relaxed">Secured 1st Prize at the state level across creative disciplines, including <span class="font-semibold text-slate-800">Malayalam Report Writing</span>, <span class="font-semibold text-slate-800">Brochure Design</span>, and <span class="font-semibold text-slate-800">Kaviyarangu</span>.</p>
+                            <h3 class="font-heading font-bold text-slate-900 text-xl md:text-2xl mb-2 print:text-base print:mb-1"><span class="hidden print:inline mr-2">•</span> State First Prize Winner | State Wafy Fest</h3>
+                            <p class="text-slate-600 leading-relaxed print:text-sm">Secured 1st Prize at the highly competitive state level across multiple creative disciplines, including <span class="font-semibold text-slate-800">Malayalam Report Writing</span>, <span class="font-semibold text-slate-800">Brochure Design</span>, and <span class="font-semibold text-slate-800">Kaviyarangu</span>.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="glass-card p-6 md:p-8 rounded-3xl flex flex-col md:flex-row gap-6 items-start hover:-translate-y-1 transition-transform print-bg-transparent print:p-0 print:border-none">
+                        <div class="p-4 bg-pink-50 text-pink-600 rounded-2xl shrink-0 print-icon-hide">
+                            <i data-lucide="mic-2" class="w-8 h-8" aria-hidden="true"></i>
+                        </div>
+                        <div>
+                            <h3 class="font-heading font-bold text-slate-900 text-xl md:text-2xl mb-1 print:text-base print:mb-1"><span class="hidden print:inline mr-2">•</span> Content Strategist</h3>
+                            <p class="text-sm font-bold text-pink-600 uppercase tracking-widest mb-3 print:text-slate-600 print:mb-1">13th State Wafy Arts Fest & Convocation</p>
+                            <p class="text-slate-600 leading-relaxed print:text-sm">Spearheaded the comprehensive content strategy, thematic planning, and overarching creative direction for a massive state-level educational and cultural conference.</p>
                         </div>
                     </div>
                 </div>
@@ -574,90 +597,90 @@
         </section>
 
         <!-- Education Section -->
-        <section id="education" class="py-20 print:py-4 bg-slate-900 text-slate-300 relative overflow-hidden">
+        <section id="education" class="py-20 bg-slate-900 text-slate-300 relative overflow-hidden print:bg-white print:text-slate-700">
             <!-- Dark ambient glow -->
             <div class="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[400px] bg-brand-900 rounded-full mix-blend-screen filter blur-[100px] opacity-50 pointer-events-none print:hidden" aria-hidden="true"></div>
 
             <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-                <div class="mb-16 print:mb-4 border-b print:border-slate-300 pb-2 md:text-center print:text-left">
-                    <h2 class="text-3xl md:text-4xl print:text-2xl font-heading font-extrabold text-white">Academic Credentials</h2>
+                <div class="mb-16 md:text-center print:text-left print:mb-4 print:border-b print:pb-2">
+                    <h2 class="text-3xl md:text-4xl print:text-2xl font-heading font-extrabold text-white print:text-slate-900">Academic Credentials.</h2>
                 </div>
 
-                <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 print:gap-6 print:grid-cols-2">
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 print:gap-6">
                     <!-- Academic Degrees -->
                     <div>
-                        <h3 class="text-xl print:text-lg font-heading font-bold text-white mb-8 print:mb-3 flex items-center border-b border-slate-700 print:border-slate-200 pb-4 print:pb-1">
+                        <h3 class="text-xl font-heading font-bold text-white mb-8 flex items-center border-b border-slate-700 pb-4 print:text-slate-900 print:mb-3 print:pb-1 print:text-lg">
                             <i data-lucide="graduation-cap" class="w-6 h-6 mr-3 text-brand-400 print:hidden" aria-hidden="true"></i> Higher Education
                         </h3>
                         <div class="space-y-6 print:space-y-3">
-                            <div class="bg-slate-800/50 print:bg-transparent backdrop-blur border border-slate-700 print:border-none p-6 print:p-0 rounded-2xl">
+                            <div class="bg-slate-800/50 backdrop-blur border border-slate-700 p-6 rounded-2xl print-bg-transparent print:p-0 print:border-none">
                                 <div class="print:flex print:justify-between print:items-end">
-                                    <h4 class="font-heading font-bold text-white text-lg print:text-base">B.Ed. in English (Ongoing)</h4>
-                                    <span class="text-xs font-bold text-brand-400 print:text-slate-500 tracking-wider block mb-1 print:mb-0">EXPECTED 2027</span>
+                                    <h4 class="font-heading font-bold text-white text-lg print:text-base print:text-slate-900">B.Ed. in English (Ongoing)</h4>
+                                    <span class="text-xs font-bold text-brand-400 tracking-wider block mb-1 print:text-slate-500 print:mb-0">EXPECTED 2027</span>
                                 </div>
-                                <p class="text-sm text-slate-400">JJ College of Education, Ammapettai</p>
+                                <p class="text-sm text-slate-400 print:text-slate-600">JJ College of Education, Ammapettai</p>
                             </div>
                             
-                            <div class="bg-slate-800/50 print:bg-transparent backdrop-blur border border-slate-700 print:border-none p-6 print:p-0 rounded-2xl">
+                            <div class="bg-slate-800/50 backdrop-blur border border-slate-700 p-6 rounded-2xl print-bg-transparent print:p-0 print:border-none">
                                 <div class="print:flex print:justify-between print:items-end">
-                                    <h4 class="font-heading font-bold text-white text-lg print:text-base">M.A. in Arabic</h4>
-                                    <span class="text-xs font-bold text-purple-400 print:text-slate-500 tracking-wider block mb-1 print:mb-0">2024 - 2026</span>
+                                    <h4 class="font-heading font-bold text-white text-lg print:text-base print:text-slate-900">M.A. in Arabic</h4>
+                                    <span class="text-xs font-bold text-purple-400 tracking-wider block mb-1 print:text-slate-500 print:mb-0">2024 - 2026</span>
                                 </div>
-                                <p class="text-sm text-slate-400">Indira Gandhi National Open University (IGNOU)</p>
+                                <p class="text-sm text-slate-400 print:text-slate-600">Indira Gandhi National Open University (IGNOU)</p>
                             </div>
                             
-                            <div class="bg-gradient-to-br from-slate-800 to-brand-900/40 print:bg-transparent print:border-none border border-brand-500/30 p-6 print:p-0 rounded-2xl relative overflow-hidden">
+                            <div class="bg-gradient-to-br from-slate-800 to-brand-900/40 backdrop-blur border border-brand-500/30 p-6 rounded-2xl relative overflow-hidden print-bg-transparent print:p-0 print:border-none">
                                 <div class="absolute top-0 right-0 p-4 opacity-10 pointer-events-none print:hidden" aria-hidden="true"><i data-lucide="award" class="w-24 h-24 text-brand-300"></i></div>
                                 <div class="print:flex print:justify-between print:items-end relative z-10">
-                                    <h4 class="font-heading font-bold text-white text-lg print:text-base">Masters in Islamic Theology (Wafy)</h4>
-                                    <span class="text-xs font-bold text-brand-300 print:text-slate-500 tracking-wider block mb-1 print:mb-0">2023 - 2025</span>
+                                    <h4 class="font-heading font-bold text-white text-lg relative z-10 print:text-base print:text-slate-900">Masters in Islamic Theology (Wafy)</h4>
+                                    <span class="text-xs font-bold text-brand-300 tracking-wider block mb-1 relative z-10 print:text-slate-500 print:mb-0">2023 - 2025</span>
                                 </div>
-                                <p class="text-sm text-slate-300 print:text-slate-500 mb-4 print:mb-1 relative z-10">Wafy Campus, Kalikavu</p>
+                                <p class="text-sm text-slate-300 mb-4 relative z-10 print:text-slate-600 print:mb-1">Wafy Campus, Kalikavu</p>
                                 
-                                <div class="bg-slate-900/60 print:bg-transparent rounded-xl p-4 print:p-0 relative z-10 border border-slate-700/50 print:border-none">
-                                    <p class="text-xs font-bold text-brand-400 print:text-slate-800 uppercase tracking-widest print:tracking-normal mb-2 print:mb-0 flex items-center">
+                                <div class="bg-slate-900/60 rounded-xl p-4 relative z-10 border border-slate-700/50 print-bg-transparent print:p-0 print:border-none">
+                                    <p class="text-xs font-bold text-brand-400 uppercase tracking-widest mb-2 flex items-center print:text-slate-800 print:tracking-normal print:mb-0">
                                         <i data-lucide="scroll-text" class="w-3.5 h-3.5 mr-2 print:hidden" aria-hidden="true"></i> PG Dissertation:
                                     </p>
-                                    <p class="text-sm text-slate-200 print:text-slate-600 italic leading-relaxed">
+                                    <p class="text-sm text-slate-200 italic leading-relaxed print:text-slate-600">
                                         "An Analytical Study on Sheikh Ahmad Sirhindi's Contributions in Promoting Ahlu-Sunnah and Preventing Spread of Shi'ism in India."
                                     </p>
                                 </div>
                             </div>
                             
-                            <div class="bg-slate-800/50 print:bg-transparent backdrop-blur border border-slate-700 print:border-none p-6 print:p-0 rounded-2xl">
+                            <div class="bg-slate-800/50 backdrop-blur border border-slate-700 p-6 rounded-2xl print-bg-transparent print:p-0 print:border-none">
                                 <div class="print:flex print:justify-between print:items-end">
-                                    <h4 class="font-heading font-bold text-white text-lg print:text-base">B.A. in English Lang & Lit.</h4>
-                                    <span class="text-xs font-bold text-slate-400 print:text-slate-500 tracking-wider block mb-1 print:mb-0">2021 - 2024</span>
+                                    <h4 class="font-heading font-bold text-white text-lg print:text-base print:text-slate-900">B.A. in English Lang & Lit.</h4>
+                                    <span class="text-xs font-bold text-slate-400 tracking-wider block mb-1 print:text-slate-500 print:mb-0">2021 - 2024</span>
                                 </div>
-                                <p class="text-sm text-slate-400">University of Calicut</p>
+                                <p class="text-sm text-slate-400 print:text-slate-600">University of Calicut</p>
                             </div>
                         </div>
                     </div>
 
                     <!-- Certifications -->
                     <div>
-                        <h3 class="text-xl print:text-lg font-heading font-bold text-white mb-8 print:mb-3 flex items-center border-b border-slate-700 print:border-slate-200 pb-4 print:pb-1">
+                        <h3 class="text-xl font-heading font-bold text-white mb-8 flex items-center border-b border-slate-700 pb-4 print:text-slate-900 print:mb-3 print:pb-1 print:text-lg">
                             <i data-lucide="file-badge" class="w-6 h-6 mr-3 text-brand-400 print:hidden" aria-hidden="true"></i> Diplomas & Foundation
                         </h3>
                         <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 print:gap-2">
-                            <div class="bg-slate-800/40 print:bg-transparent p-5 print:p-2 rounded-2xl border border-slate-700/50 print:border-slate-200">
-                                <h4 class="font-heading font-bold text-white print:text-slate-900 mb-1">Aliya Certificate</h4>
-                                <p class="text-xs text-brand-400 print:text-slate-600 mb-2 print:mb-1">Islamic & Arabic Studies</p>
+                            <div class="bg-slate-800/40 p-5 rounded-2xl border border-slate-700/50 print-bg-transparent print:p-2 print:border-slate-300">
+                                <h4 class="font-heading font-bold text-white mb-1 print:text-slate-900">Aliya Certificate</h4>
+                                <p class="text-xs text-brand-400 mb-2 print:text-slate-600 print:mb-1">Islamic & Arabic Studies</p>
                                 <p class="text-xs text-slate-400">MTM College • 2020-23</p>
                             </div>
-                            <div class="bg-slate-800/40 print:bg-transparent p-5 print:p-2 rounded-2xl border border-slate-700/50 print:border-slate-200">
-                                <h4 class="font-heading font-bold text-white print:text-slate-900 mb-1">Diploma: Arabic</h4>
-                                <p class="text-xs text-brand-400 print:text-slate-600 mb-2 print:mb-1">Functional Proficiency</p>
+                            <div class="bg-slate-800/40 p-5 rounded-2xl border border-slate-700/50 print-bg-transparent print:p-2 print:border-slate-300">
+                                <h4 class="font-heading font-bold text-white mb-1 print:text-slate-900">Diploma: Arabic</h4>
+                                <p class="text-xs text-brand-400 mb-2 print:text-slate-600 print:mb-1">Functional Proficiency</p>
                                 <p class="text-xs text-slate-400">NCPUL • 2023-25</p>
                             </div>
-                            <div class="bg-slate-800/40 print:bg-transparent p-5 print:p-2 rounded-2xl border border-slate-700/50 print:border-slate-200">
-                                <h4 class="font-heading font-bold text-white print:text-slate-900 mb-1">Diploma: Urdu</h4>
-                                <p class="text-xs text-brand-400 print:text-slate-600 mb-2 print:mb-1">Language Proficiency</p>
+                            <div class="bg-slate-800/40 p-5 rounded-2xl border border-slate-700/50 print-bg-transparent print:p-2 print:border-slate-300">
+                                <h4 class="font-heading font-bold text-white mb-1 print:text-slate-900">Diploma: Urdu</h4>
+                                <p class="text-xs text-brand-400 mb-2 print:text-slate-600 print:mb-1">Language Proficiency</p>
                                 <p class="text-xs text-slate-400">NCPUL • 2023-24</p>
                             </div>
-                            <div class="bg-slate-800/40 print:bg-transparent p-5 print:p-2 rounded-2xl border border-slate-700/50 print:border-slate-200">
-                                <h4 class="font-heading font-bold text-white print:text-slate-900 mb-1">HSE Commerce</h4>
-                                <p class="text-xs text-brand-400 print:text-slate-600 mb-2 print:mb-1">Higher Secondary</p>
+                            <div class="bg-slate-800/40 p-5 rounded-2xl border border-slate-700/50 print-bg-transparent print:p-2 print:border-slate-300">
+                                <h4 class="font-heading font-bold text-white mb-1 print:text-slate-900">HSE Commerce</h4>
+                                <p class="text-xs text-brand-400 mb-2 print:text-slate-600 print:mb-1">Higher Secondary</p>
                                 <p class="text-xs text-slate-400">RVHSS Chokli • 2018-20</p>
                             </div>
                         </div>
@@ -666,8 +689,8 @@
             </div>
         </section>
 
-        <!-- Interests Section (Hide in print to save space if needed, kept very compact here) -->
-        <section id="interests" class="py-20 print:py-4 bg-slate-50 border-t print:border-none border-slate-200 print:hidden">
+        <!-- Interests Section -->
+        <section id="interests" class="py-20 bg-slate-50 border-t border-slate-200 print:hidden">
             <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div class="mb-12 text-center">
                     <h2 class="text-sm font-bold text-slate-400 tracking-widest uppercase mb-2">Beyond the Resume</h2>
@@ -675,19 +698,19 @@
                 </div>
 
                 <div class="grid grid-cols-2 md:grid-cols-4 gap-4 lg:gap-6">
-                    <div class="bg-white p-6 rounded-3xl border border-slate-100 flex flex-col items-center text-center shadow-sm">
+                    <div class="bg-white p-6 rounded-3xl border border-slate-100 flex flex-col items-center text-center shadow-sm hover:shadow-md transition-shadow">
                         <i data-lucide="globe-2" class="w-8 h-8 text-brand-400 mb-3" aria-hidden="true"></i>
                         <h4 class="font-bold text-slate-800 text-sm">Global Affairs</h4>
                     </div>
-                    <div class="bg-white p-6 rounded-3xl border border-slate-100 flex flex-col items-center text-center shadow-sm">
+                    <div class="bg-white p-6 rounded-3xl border border-slate-100 flex flex-col items-center text-center shadow-sm hover:shadow-md transition-shadow">
                         <i data-lucide="landmark" class="w-8 h-8 text-purple-400 mb-3" aria-hidden="true"></i>
                         <h4 class="font-bold text-slate-800 text-sm">History & Ideology</h4>
                     </div>
-                    <div class="bg-white p-6 rounded-3xl border border-slate-100 flex flex-col items-center text-center shadow-sm">
+                    <div class="bg-white p-6 rounded-3xl border border-slate-100 flex flex-col items-center text-center shadow-sm hover:shadow-md transition-shadow">
                         <i data-lucide="feather" class="w-8 h-8 text-pink-400 mb-3" aria-hidden="true"></i>
                         <h4 class="font-bold text-slate-800 text-sm">Literary Arts</h4>
                     </div>
-                    <div class="bg-white p-6 rounded-3xl border border-slate-100 flex flex-col items-center text-center shadow-sm">
+                    <div class="bg-white p-6 rounded-3xl border border-slate-100 flex flex-col items-center text-center shadow-sm hover:shadow-md transition-shadow">
                         <i data-lucide="plane-takeoff" class="w-8 h-8 text-slate-400 mb-3" aria-hidden="true"></i>
                         <h4 class="font-bold text-slate-800 text-sm">Travel Planning</h4>
                     </div>
@@ -697,7 +720,7 @@
 
     </main>
 
-    <!-- Footer / Contact (Hidden entirely in print) -->
+    <!-- Footer / Contact -->
     <footer id="contact" class="bg-white border-t border-slate-200 py-16 print:hidden">
         <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex flex-col md:flex-row justify-between items-center gap-8">
@@ -736,14 +759,16 @@
         lucide.createIcons();
     </script>
 
-    <!-- Mobile Menu Toggle Logic -->
+    <!-- Mobile Menu Toggle & Auto-Close Logic -->
     <script>
         document.addEventListener('DOMContentLoaded', () => {
             const btn = document.getElementById('mobile-menu-btn');
             const menu = document.getElementById('mobile-menu');
-            const menuLinks = menu.querySelectorAll('a');
+            const menuLinks = menu.querySelectorAll('a, button');
 
-            btn.addEventListener('click', () => {
+            // Toggle menu on button click
+            btn.addEventListener('click', (e) => {
+                e.stopPropagation();
                 const isHidden = menu.classList.contains('hidden');
                 if (isHidden) {
                     menu.classList.remove('hidden');
@@ -754,12 +779,29 @@
                 }
             });
 
+            // Close menu when any internal link/button is clicked
             menuLinks.forEach(link => {
                 link.addEventListener('click', () => {
                     menu.classList.add('hidden');
                     btn.setAttribute('aria-expanded', 'false');
                 });
             });
+
+            // FIXED: Close menu when clicking ANYWHERE outside of it
+            document.addEventListener('click', (e) => {
+                if (!menu.classList.contains('hidden') && !menu.contains(e.target) && !btn.contains(e.target)) {
+                    menu.classList.add('hidden');
+                    btn.setAttribute('aria-expanded', 'false');
+                }
+            });
+
+            // FIXED: Close menu on scroll
+            window.addEventListener('scroll', () => {
+                if (!menu.classList.contains('hidden')) {
+                    menu.classList.add('hidden');
+                    btn.setAttribute('aria-expanded', 'false');
+                }
+            }, { passive: true });
         });
     </script>
 
